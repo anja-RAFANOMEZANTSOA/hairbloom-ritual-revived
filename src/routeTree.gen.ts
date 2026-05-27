@@ -9,8 +9,86 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ShopRouteImport } from './routes/shop'
+import { Route as RepousseRouteImport } from './routes/repousse'
+import { Route as RecipesRouteImport } from './routes/recipes'
+import { Route as QuizRouteImport } from './routes/quiz'
+import { Route as ProfilRouteImport } from './routes/profil'
+import { Route as PlanRouteImport } from './routes/plan'
+import { Route as PhotoRouteImport } from './routes/photo'
+import { Route as MeteoRouteImport } from './routes/meteo'
+import { Route as InciRouteImport } from './routes/inci'
+import { Route as DiagnosticRouteImport } from './routes/diagnostic'
+import { Route as ConseilsRouteImport } from './routes/conseils'
+import { Route as AvantApresRouteImport } from './routes/avant-apres'
+import { Route as AuraRouteImport } from './routes/aura'
 import { Route as IndexRouteImport } from './routes/index'
 
+const ShopRoute = ShopRouteImport.update({
+  id: '/shop',
+  path: '/shop',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RepousseRoute = RepousseRouteImport.update({
+  id: '/repousse',
+  path: '/repousse',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RecipesRoute = RecipesRouteImport.update({
+  id: '/recipes',
+  path: '/recipes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QuizRoute = QuizRouteImport.update({
+  id: '/quiz',
+  path: '/quiz',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfilRoute = ProfilRouteImport.update({
+  id: '/profil',
+  path: '/profil',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlanRoute = PlanRouteImport.update({
+  id: '/plan',
+  path: '/plan',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PhotoRoute = PhotoRouteImport.update({
+  id: '/photo',
+  path: '/photo',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MeteoRoute = MeteoRouteImport.update({
+  id: '/meteo',
+  path: '/meteo',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InciRoute = InciRouteImport.update({
+  id: '/inci',
+  path: '/inci',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DiagnosticRoute = DiagnosticRouteImport.update({
+  id: '/diagnostic',
+  path: '/diagnostic',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConseilsRoute = ConseilsRouteImport.update({
+  id: '/conseils',
+  path: '/conseils',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AvantApresRoute = AvantApresRouteImport.update({
+  id: '/avant-apres',
+  path: '/avant-apres',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuraRoute = AuraRouteImport.update({
+  id: '/aura',
+  path: '/aura',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -19,28 +97,214 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/aura': typeof AuraRoute
+  '/avant-apres': typeof AvantApresRoute
+  '/conseils': typeof ConseilsRoute
+  '/diagnostic': typeof DiagnosticRoute
+  '/inci': typeof InciRoute
+  '/meteo': typeof MeteoRoute
+  '/photo': typeof PhotoRoute
+  '/plan': typeof PlanRoute
+  '/profil': typeof ProfilRoute
+  '/quiz': typeof QuizRoute
+  '/recipes': typeof RecipesRoute
+  '/repousse': typeof RepousseRoute
+  '/shop': typeof ShopRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/aura': typeof AuraRoute
+  '/avant-apres': typeof AvantApresRoute
+  '/conseils': typeof ConseilsRoute
+  '/diagnostic': typeof DiagnosticRoute
+  '/inci': typeof InciRoute
+  '/meteo': typeof MeteoRoute
+  '/photo': typeof PhotoRoute
+  '/plan': typeof PlanRoute
+  '/profil': typeof ProfilRoute
+  '/quiz': typeof QuizRoute
+  '/recipes': typeof RecipesRoute
+  '/repousse': typeof RepousseRoute
+  '/shop': typeof ShopRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/aura': typeof AuraRoute
+  '/avant-apres': typeof AvantApresRoute
+  '/conseils': typeof ConseilsRoute
+  '/diagnostic': typeof DiagnosticRoute
+  '/inci': typeof InciRoute
+  '/meteo': typeof MeteoRoute
+  '/photo': typeof PhotoRoute
+  '/plan': typeof PlanRoute
+  '/profil': typeof ProfilRoute
+  '/quiz': typeof QuizRoute
+  '/recipes': typeof RecipesRoute
+  '/repousse': typeof RepousseRoute
+  '/shop': typeof ShopRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/aura'
+    | '/avant-apres'
+    | '/conseils'
+    | '/diagnostic'
+    | '/inci'
+    | '/meteo'
+    | '/photo'
+    | '/plan'
+    | '/profil'
+    | '/quiz'
+    | '/recipes'
+    | '/repousse'
+    | '/shop'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/aura'
+    | '/avant-apres'
+    | '/conseils'
+    | '/diagnostic'
+    | '/inci'
+    | '/meteo'
+    | '/photo'
+    | '/plan'
+    | '/profil'
+    | '/quiz'
+    | '/recipes'
+    | '/repousse'
+    | '/shop'
+  id:
+    | '__root__'
+    | '/'
+    | '/aura'
+    | '/avant-apres'
+    | '/conseils'
+    | '/diagnostic'
+    | '/inci'
+    | '/meteo'
+    | '/photo'
+    | '/plan'
+    | '/profil'
+    | '/quiz'
+    | '/recipes'
+    | '/repousse'
+    | '/shop'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuraRoute: typeof AuraRoute
+  AvantApresRoute: typeof AvantApresRoute
+  ConseilsRoute: typeof ConseilsRoute
+  DiagnosticRoute: typeof DiagnosticRoute
+  InciRoute: typeof InciRoute
+  MeteoRoute: typeof MeteoRoute
+  PhotoRoute: typeof PhotoRoute
+  PlanRoute: typeof PlanRoute
+  ProfilRoute: typeof ProfilRoute
+  QuizRoute: typeof QuizRoute
+  RecipesRoute: typeof RecipesRoute
+  RepousseRoute: typeof RepousseRoute
+  ShopRoute: typeof ShopRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/shop': {
+      id: '/shop'
+      path: '/shop'
+      fullPath: '/shop'
+      preLoaderRoute: typeof ShopRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/repousse': {
+      id: '/repousse'
+      path: '/repousse'
+      fullPath: '/repousse'
+      preLoaderRoute: typeof RepousseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/recipes': {
+      id: '/recipes'
+      path: '/recipes'
+      fullPath: '/recipes'
+      preLoaderRoute: typeof RecipesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/quiz': {
+      id: '/quiz'
+      path: '/quiz'
+      fullPath: '/quiz'
+      preLoaderRoute: typeof QuizRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profil': {
+      id: '/profil'
+      path: '/profil'
+      fullPath: '/profil'
+      preLoaderRoute: typeof ProfilRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/plan': {
+      id: '/plan'
+      path: '/plan'
+      fullPath: '/plan'
+      preLoaderRoute: typeof PlanRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/photo': {
+      id: '/photo'
+      path: '/photo'
+      fullPath: '/photo'
+      preLoaderRoute: typeof PhotoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/meteo': {
+      id: '/meteo'
+      path: '/meteo'
+      fullPath: '/meteo'
+      preLoaderRoute: typeof MeteoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/inci': {
+      id: '/inci'
+      path: '/inci'
+      fullPath: '/inci'
+      preLoaderRoute: typeof InciRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/diagnostic': {
+      id: '/diagnostic'
+      path: '/diagnostic'
+      fullPath: '/diagnostic'
+      preLoaderRoute: typeof DiagnosticRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/conseils': {
+      id: '/conseils'
+      path: '/conseils'
+      fullPath: '/conseils'
+      preLoaderRoute: typeof ConseilsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/avant-apres': {
+      id: '/avant-apres'
+      path: '/avant-apres'
+      fullPath: '/avant-apres'
+      preLoaderRoute: typeof AvantApresRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/aura': {
+      id: '/aura'
+      path: '/aura'
+      fullPath: '/aura'
+      preLoaderRoute: typeof AuraRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -53,6 +317,19 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuraRoute: AuraRoute,
+  AvantApresRoute: AvantApresRoute,
+  ConseilsRoute: ConseilsRoute,
+  DiagnosticRoute: DiagnosticRoute,
+  InciRoute: InciRoute,
+  MeteoRoute: MeteoRoute,
+  PhotoRoute: PhotoRoute,
+  PlanRoute: PlanRoute,
+  ProfilRoute: ProfilRoute,
+  QuizRoute: QuizRoute,
+  RecipesRoute: RecipesRoute,
+  RepousseRoute: RepousseRoute,
+  ShopRoute: ShopRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
