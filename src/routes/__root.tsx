@@ -9,6 +9,9 @@ import {
 } from "@tanstack/react-router";
 
 import appCss from "../styles.css?url";
+import { Layout } from "@/components/Layout";
+import { Onboarding } from "@/components/Onboarding";
+import { Toaster } from "@/components/ui/sonner";
 
 function NotFoundComponent() {
   return (
@@ -72,14 +75,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "HairBloom — Your hair. Your ritual." },
+      { name: "description", content: "Rituel capillaire personnalisé : diagnostic IA, recettes DIY, shop, plan 30 jours." },
+      { name: "theme-color", content: "#C9956A" },
+      { property: "og:title", content: "HairBloom — Your hair. Your ritual." },
+      { property: "og:description", content: "Rituel capillaire personnalisé." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
       {
@@ -113,7 +115,11 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Outlet />
+      <Layout>
+        <Outlet />
+      </Layout>
+      <Onboarding />
+      <Toaster position="top-center" />
     </QueryClientProvider>
   );
 }
