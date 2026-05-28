@@ -6,6 +6,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { diagnoseHair } from "@/lib/ai.functions";
 import { useProfile } from "@/lib/storage";
 import { toast } from "sonner";
+import { addHistory } from "@/lib/history";
 
 export const Route = createFileRoute("/diagnostic")({ component: Diagnostic });
 
@@ -43,7 +44,14 @@ function Diagnostic() {
     try {
       const r = await diagnose({ data: { problems: selected, description: desc, hairType: profile.hairType } });
       if (r.error) toast.error(r.error);
-      else setResult(r.result);
+      else {
+        setResult(r.result);
+        addHistory(
+          "diagnostic",
+          `${selected.length} problème(s) · ${r.result?.cause ?? "routine générée"}`,
+          { problems: selected, description: desc, result: r.result }
+        );
+      }
     } finally { setLoading(false); }
   };
 
