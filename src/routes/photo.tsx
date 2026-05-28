@@ -6,6 +6,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { analyzeHairPhoto } from "@/lib/ai.functions";
 import { saveProfile } from "@/lib/storage";
 import { toast } from "sonner";
+import { addHistory } from "@/lib/history";
 
 export const Route = createFileRoute("/photo")({ component: Photo });
 
@@ -31,6 +32,7 @@ function Photo() {
       else {
         setResult(r.result);
         if (r.result?.hairType) saveProfile({ hairType: r.result.hairType, texture: r.result.texture, porosity: r.result.porosity });
+        addHistory("photo", `Type ${r.result?.hairType ?? "—"} · ${r.result?.condition ?? ""}`.trim(), r.result);
         toast.success("Analyse terminée");
       }
     } catch (e: any) {

@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { saveProfile } from "@/lib/storage";
 import { toast } from "sonner";
+import { addHistory } from "@/lib/history";
 
 export const Route = createFileRoute("/quiz")({ component: Quiz });
 
@@ -38,6 +39,7 @@ function Quiz() {
       const hairType = curlMap[next[2]] || "2b";
       const porosity = porosityMap[next[8]] || "Moyenne";
       saveProfile({ hairType, texture: next[2], porosity, problem: next[10], goal: next[10] });
+      addHistory("quiz", `Type ${hairType} · porosité ${porosity}`, { hairType, porosity, texture: next[2], goal: next[10], answers: next });
       setDone(true);
       toast.success("Profil enregistré");
     }

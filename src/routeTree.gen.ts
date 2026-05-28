@@ -20,6 +20,7 @@ import { Route as PhotoRouteImport } from './routes/photo'
 import { Route as MeteoRouteImport } from './routes/meteo'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as InciRouteImport } from './routes/inci'
+import { Route as HistoriqueRouteImport } from './routes/historique'
 import { Route as DiagnosticRouteImport } from './routes/diagnostic'
 import { Route as ConseilsRouteImport } from './routes/conseils'
 import { Route as AvantApresRouteImport } from './routes/avant-apres'
@@ -81,6 +82,11 @@ const InciRoute = InciRouteImport.update({
   path: '/inci',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HistoriqueRoute = HistoriqueRouteImport.update({
+  id: '/historique',
+  path: '/historique',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DiagnosticRoute = DiagnosticRouteImport.update({
   id: '/diagnostic',
   path: '/diagnostic',
@@ -113,6 +119,7 @@ export interface FileRoutesByFullPath {
   '/avant-apres': typeof AvantApresRoute
   '/conseils': typeof ConseilsRoute
   '/diagnostic': typeof DiagnosticRoute
+  '/historique': typeof HistoriqueRoute
   '/inci': typeof InciRoute
   '/login': typeof LoginRoute
   '/meteo': typeof MeteoRoute
@@ -131,6 +138,7 @@ export interface FileRoutesByTo {
   '/avant-apres': typeof AvantApresRoute
   '/conseils': typeof ConseilsRoute
   '/diagnostic': typeof DiagnosticRoute
+  '/historique': typeof HistoriqueRoute
   '/inci': typeof InciRoute
   '/login': typeof LoginRoute
   '/meteo': typeof MeteoRoute
@@ -150,6 +158,7 @@ export interface FileRoutesById {
   '/avant-apres': typeof AvantApresRoute
   '/conseils': typeof ConseilsRoute
   '/diagnostic': typeof DiagnosticRoute
+  '/historique': typeof HistoriqueRoute
   '/inci': typeof InciRoute
   '/login': typeof LoginRoute
   '/meteo': typeof MeteoRoute
@@ -170,6 +179,7 @@ export interface FileRouteTypes {
     | '/avant-apres'
     | '/conseils'
     | '/diagnostic'
+    | '/historique'
     | '/inci'
     | '/login'
     | '/meteo'
@@ -188,6 +198,7 @@ export interface FileRouteTypes {
     | '/avant-apres'
     | '/conseils'
     | '/diagnostic'
+    | '/historique'
     | '/inci'
     | '/login'
     | '/meteo'
@@ -206,6 +217,7 @@ export interface FileRouteTypes {
     | '/avant-apres'
     | '/conseils'
     | '/diagnostic'
+    | '/historique'
     | '/inci'
     | '/login'
     | '/meteo'
@@ -225,6 +237,7 @@ export interface RootRouteChildren {
   AvantApresRoute: typeof AvantApresRoute
   ConseilsRoute: typeof ConseilsRoute
   DiagnosticRoute: typeof DiagnosticRoute
+  HistoriqueRoute: typeof HistoriqueRoute
   InciRoute: typeof InciRoute
   LoginRoute: typeof LoginRoute
   MeteoRoute: typeof MeteoRoute
@@ -317,6 +330,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InciRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/historique': {
+      id: '/historique'
+      path: '/historique'
+      fullPath: '/historique'
+      preLoaderRoute: typeof HistoriqueRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/diagnostic': {
       id: '/diagnostic'
       path: '/diagnostic'
@@ -361,6 +381,7 @@ const rootRouteChildren: RootRouteChildren = {
   AvantApresRoute: AvantApresRoute,
   ConseilsRoute: ConseilsRoute,
   DiagnosticRoute: DiagnosticRoute,
+  HistoriqueRoute: HistoriqueRoute,
   InciRoute: InciRoute,
   LoginRoute: LoginRoute,
   MeteoRoute: MeteoRoute,

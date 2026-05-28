@@ -1,11 +1,13 @@
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Home, Camera, Sparkles, ShoppingBag, User, HelpCircle, FlaskConical,
-  Leaf, Images, CloudSun, Ruler, ScanSearch, CalendarDays, BookOpen,
+  Leaf, Images, CloudSun, Ruler, ScanSearch, CalendarDays, BookOpen, History,
 } from "lucide-react";
 import { Logo } from "./Logo";
+import { NotificationBell } from "./NotificationBell";
+import { ensureScheduled } from "@/lib/notifications";
 
 const allLinks = [
   { to: "/", label: "Accueil", icon: Home },
@@ -21,6 +23,7 @@ const allLinks = [
   { to: "/aura", label: "Mon Aura", icon: Sparkles },
   { to: "/plan", label: "Plan 30 jours", icon: CalendarDays },
   { to: "/conseils", label: "Conseils", icon: BookOpen },
+  { to: "/historique", label: "Historique", icon: History },
   { to: "/profil", label: "Profil", icon: User },
 ] as const;
 
@@ -34,6 +37,10 @@ const bottomNav = [
 
 export function Layout({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+
+  useEffect(() => { ensureScheduled(); }, []);
+
+  const titleFor = allLinks.find((l) => l.to === pathname)?.label ?? "HairBloom";
 
   return (
     <div className="min-h-screen flex w-full bg-background text-foreground">
@@ -68,6 +75,14 @@ export function Layout({ children }: { children: ReactNode }) {
 
       {/* Main */}
       <main className="flex-1 min-w-0 pb-20 lg:pb-0">
+        <header className="sticky top-0 z-30 bg-card/90 backdrop-blur border-b border-border flex items-center justify-between px-4 py-2.5">
+          <div className="flex items-center gap-2 lg:hidden">
+            <Logo size={28} />
+            <span className="font-display text-lg">{titleFor}</span>
+          </div>
+          <div className="hidden lg:block font-display text-lg">{titleFor}</div>
+          <NotificationBell />
+        </header>
         <AnimatePresence mode="wait">
           <motion.div
             key={pathname}
