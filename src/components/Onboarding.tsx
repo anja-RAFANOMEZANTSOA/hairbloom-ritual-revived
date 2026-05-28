@@ -4,8 +4,9 @@ import { ArrowRight, Sparkles } from "lucide-react";
 import { Logo } from "./Logo";
 import { saveProfile, type HairProfile } from "@/lib/storage";
 import { unsplash } from "@/lib/hair-data";
+import { getCurrentUser } from "@/lib/auth";
 
-const KEY = "hairbloom_onboarded";
+const KEY_PREFIX = "hairbloom_onboarded_";
 
 export function Onboarding() {
   const [open, setOpen] = useState(false);
@@ -14,14 +15,20 @@ export function Onboarding() {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    if (localStorage.getItem(KEY) !== "true") setOpen(true);
+    const u = getCurrentUser();
+    if (!u) return;
+    if (localStorage.getItem(KEY_PREFIX + u.id) !== "true") {
+      setDraft({ name: u.firstName, profileType: u.profileType as HairProfile["profileType"] });
+      setOpen(true);
+    }
   }, []);
 
   if (!open) return null;
 
   const finish = () => {
     saveProfile(draft);
-    localStorage.setItem(KEY, "true");
+    const u = getCurrentUser();
+    if (u) localStorage.setItem(KEY_PREFIX + u.id, "true");
     setOpen(false);
   };
 
