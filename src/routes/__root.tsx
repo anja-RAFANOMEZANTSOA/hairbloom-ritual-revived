@@ -12,6 +12,9 @@ import appCss from "../styles.css?url";
 import { Layout } from "@/components/Layout";
 import { Onboarding } from "@/components/Onboarding";
 import { Toaster } from "@/components/ui/sonner";
+import { useAuth, PUBLIC_ROUTES } from "@/lib/auth";
+import { useEffect } from "react";
+import { useRouterState, useNavigate } from "@tanstack/react-router";
 
 function NotFoundComponent() {
   return (
@@ -115,11 +118,35 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <AuthGate />
+      <Toaster position="top-center" />
+    </QueryClientProvider>
+  );
+}
+
+function AuthGate() {
+  const { isAuthenticated, ready } = useAuth();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const navigate = useNavigate();
+  const isPublic = PUBLIC_ROUTES.includes(pathname);
+
+  useEffect(() => {
+    if (!ready) return;
+    if (!isAuthenticated && !isPublic) navigate({ to: "/login", replace: true });
+    if (isAuthenticated && isPublic) navigate({ to: "/", replace: true });
+  }, [ready, isAuthenticated, isPublic, navigate]);
+
+  if (!ready) return null;
+
+  if (isPublic) return <Outlet />;
+  if (!isAuthenticated) return null;
+
+  return (
+    <>
       <Layout>
         <Outlet />
       </Layout>
       <Onboarding />
-      <Toaster position="top-center" />
-    </QueryClientProvider>
+    </>
   );
 }

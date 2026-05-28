@@ -1,21 +1,30 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { Sparkles, User, RotateCcw } from "lucide-react";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { Sparkles, User, RotateCcw, LogOut } from "lucide-react";
 import { useProfile, useLocalStorage } from "@/lib/storage";
 import { auras, recipes } from "@/lib/hair-data";
 import { toast } from "sonner";
+import { logout, useAuth } from "@/lib/auth";
 
 export const Route = createFileRoute("/profil")({ component: Profil });
 
 function Profil() {
   const [profile, setProfile] = useProfile();
+  const { user } = useAuth();
+  const navigate = useNavigate();
   const [favs] = useLocalStorage<number[]>("hairbloom_fav_recipes", []);
   const [lang, setLang] = useLocalStorage<string>("hairbloom_lang", "Français");
   const aura = profile.hairType ? auras[profile.hairType] : null;
 
   const reset = () => {
-    localStorage.removeItem("hairbloom_onboarded");
     localStorage.removeItem("hairbloom_profile");
+    if (user) localStorage.removeItem("hairbloom_onboarded_" + user.id);
     toast.success("Profil réinitialisé. Rechargez la page.");
+  };
+
+  const handleLogout = () => {
+    logout();
+    toast.success("À bientôt 🌸");
+    navigate({ to: "/login" });
   };
 
   return (
@@ -25,8 +34,8 @@ function Profil() {
           <User className="size-8" />
         </div>
         <div>
-          <h1 className="font-display text-2xl">{profile.name || "Anonyme"}</h1>
-          <p className="text-muted-foreground text-sm">{profile.profileType || "Profil non défini"}</p>
+          <h1 className="font-display text-2xl">{user?.firstName || profile.name || "Anonyme"}</h1>
+          <p className="text-muted-foreground text-sm">{user?.email}</p>
         </div>
       </header>
 
@@ -74,6 +83,10 @@ function Profil() {
 
       <button onClick={reset} className="w-full py-3 rounded-2xl border border-destructive/40 text-destructive text-sm flex items-center justify-center gap-2">
         <RotateCcw className="size-4" /> Réinitialiser mon profil
+      </button>
+
+      <button onClick={handleLogout} className="w-full py-3 rounded-2xl bg-primary text-primary-foreground text-sm flex items-center justify-center gap-2 shadow-md">
+        <LogOut className="size-4" /> Se déconnecter
       </button>
     </div>
   );
