@@ -11,12 +11,14 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ShopRouteImport } from './routes/shop'
 import { Route as RepousseRouteImport } from './routes/repousse'
+import { Route as RegisterRouteImport } from './routes/register'
 import { Route as RecipesRouteImport } from './routes/recipes'
 import { Route as QuizRouteImport } from './routes/quiz'
 import { Route as ProfilRouteImport } from './routes/profil'
 import { Route as PlanRouteImport } from './routes/plan'
 import { Route as PhotoRouteImport } from './routes/photo'
 import { Route as MeteoRouteImport } from './routes/meteo'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as InciRouteImport } from './routes/inci'
 import { Route as DiagnosticRouteImport } from './routes/diagnostic'
 import { Route as ConseilsRouteImport } from './routes/conseils'
@@ -32,6 +34,11 @@ const ShopRoute = ShopRouteImport.update({
 const RepousseRoute = RepousseRouteImport.update({
   id: '/repousse',
   path: '/repousse',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RegisterRoute = RegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RecipesRoute = RecipesRouteImport.update({
@@ -62,6 +69,11 @@ const PhotoRoute = PhotoRouteImport.update({
 const MeteoRoute = MeteoRouteImport.update({
   id: '/meteo',
   path: '/meteo',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InciRoute = InciRouteImport.update({
@@ -102,12 +114,14 @@ export interface FileRoutesByFullPath {
   '/conseils': typeof ConseilsRoute
   '/diagnostic': typeof DiagnosticRoute
   '/inci': typeof InciRoute
+  '/login': typeof LoginRoute
   '/meteo': typeof MeteoRoute
   '/photo': typeof PhotoRoute
   '/plan': typeof PlanRoute
   '/profil': typeof ProfilRoute
   '/quiz': typeof QuizRoute
   '/recipes': typeof RecipesRoute
+  '/register': typeof RegisterRoute
   '/repousse': typeof RepousseRoute
   '/shop': typeof ShopRoute
 }
@@ -118,12 +132,14 @@ export interface FileRoutesByTo {
   '/conseils': typeof ConseilsRoute
   '/diagnostic': typeof DiagnosticRoute
   '/inci': typeof InciRoute
+  '/login': typeof LoginRoute
   '/meteo': typeof MeteoRoute
   '/photo': typeof PhotoRoute
   '/plan': typeof PlanRoute
   '/profil': typeof ProfilRoute
   '/quiz': typeof QuizRoute
   '/recipes': typeof RecipesRoute
+  '/register': typeof RegisterRoute
   '/repousse': typeof RepousseRoute
   '/shop': typeof ShopRoute
 }
@@ -135,12 +151,14 @@ export interface FileRoutesById {
   '/conseils': typeof ConseilsRoute
   '/diagnostic': typeof DiagnosticRoute
   '/inci': typeof InciRoute
+  '/login': typeof LoginRoute
   '/meteo': typeof MeteoRoute
   '/photo': typeof PhotoRoute
   '/plan': typeof PlanRoute
   '/profil': typeof ProfilRoute
   '/quiz': typeof QuizRoute
   '/recipes': typeof RecipesRoute
+  '/register': typeof RegisterRoute
   '/repousse': typeof RepousseRoute
   '/shop': typeof ShopRoute
 }
@@ -153,12 +171,14 @@ export interface FileRouteTypes {
     | '/conseils'
     | '/diagnostic'
     | '/inci'
+    | '/login'
     | '/meteo'
     | '/photo'
     | '/plan'
     | '/profil'
     | '/quiz'
     | '/recipes'
+    | '/register'
     | '/repousse'
     | '/shop'
   fileRoutesByTo: FileRoutesByTo
@@ -169,12 +189,14 @@ export interface FileRouteTypes {
     | '/conseils'
     | '/diagnostic'
     | '/inci'
+    | '/login'
     | '/meteo'
     | '/photo'
     | '/plan'
     | '/profil'
     | '/quiz'
     | '/recipes'
+    | '/register'
     | '/repousse'
     | '/shop'
   id:
@@ -185,12 +207,14 @@ export interface FileRouteTypes {
     | '/conseils'
     | '/diagnostic'
     | '/inci'
+    | '/login'
     | '/meteo'
     | '/photo'
     | '/plan'
     | '/profil'
     | '/quiz'
     | '/recipes'
+    | '/register'
     | '/repousse'
     | '/shop'
   fileRoutesById: FileRoutesById
@@ -202,12 +226,14 @@ export interface RootRouteChildren {
   ConseilsRoute: typeof ConseilsRoute
   DiagnosticRoute: typeof DiagnosticRoute
   InciRoute: typeof InciRoute
+  LoginRoute: typeof LoginRoute
   MeteoRoute: typeof MeteoRoute
   PhotoRoute: typeof PhotoRoute
   PlanRoute: typeof PlanRoute
   ProfilRoute: typeof ProfilRoute
   QuizRoute: typeof QuizRoute
   RecipesRoute: typeof RecipesRoute
+  RegisterRoute: typeof RegisterRoute
   RepousseRoute: typeof RepousseRoute
   ShopRoute: typeof ShopRoute
 }
@@ -226,6 +252,13 @@ declare module '@tanstack/react-router' {
       path: '/repousse'
       fullPath: '/repousse'
       preLoaderRoute: typeof RepousseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/register': {
+      id: '/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof RegisterRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/recipes': {
@@ -268,6 +301,13 @@ declare module '@tanstack/react-router' {
       path: '/meteo'
       fullPath: '/meteo'
       preLoaderRoute: typeof MeteoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/inci': {
@@ -322,12 +362,14 @@ const rootRouteChildren: RootRouteChildren = {
   ConseilsRoute: ConseilsRoute,
   DiagnosticRoute: DiagnosticRoute,
   InciRoute: InciRoute,
+  LoginRoute: LoginRoute,
   MeteoRoute: MeteoRoute,
   PhotoRoute: PhotoRoute,
   PlanRoute: PlanRoute,
   ProfilRoute: ProfilRoute,
   QuizRoute: QuizRoute,
   RecipesRoute: RecipesRoute,
+  RegisterRoute: RegisterRoute,
   RepousseRoute: RepousseRoute,
   ShopRoute: ShopRoute,
 }
