@@ -18,7 +18,7 @@ function Recipes() {
   return (
     <div className="max-w-5xl mx-auto p-4 md:p-6 space-y-5">
       <header>
-        <h1 className="font-display text-3xl">Recettes naturelles</h1>
+        <h1 className="font-display text-3xl">🌿 Recettes naturelles</h1>
         <p className="text-muted-foreground text-sm">{recipes.length} recettes DIY testées</p>
       </header>
 
@@ -31,7 +31,7 @@ function Recipes() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {list.map((r) => (
           <motion.div key={r.id} whileHover={{ y: -3 }} className="bg-card rounded-3xl overflow-hidden border border-border cursor-pointer" onClick={() => setOpen(r)}>
-            <div className="h-40 bg-cover bg-center" style={{ backgroundImage: `url(${unsplash(r.cover, 600)})` }} />
+            <div className="h-[140px] bg-cover bg-center" style={{ backgroundImage: `url(${unsplash(r.cover, 600)})` }} />
             <div className="p-4">
               <div className="flex justify-between items-start gap-2 mb-2">
                 <span className="text-[10px] uppercase tracking-wider text-primary font-medium">{r.benefit}</span>
@@ -70,8 +70,8 @@ function Recipes() {
                   <h3 className="font-medium mb-2 text-sm">Ingrédients</h3>
                   <div className="flex flex-wrap gap-3">
                     {open.ingredients.map((i) => (
-                      <div key={i.name} className="flex flex-col items-center gap-1 w-16">
-                        <img src={i.photo} alt={i.name} className="size-14 rounded-full object-cover border border-border" />
+                      <div key={i.name} className="flex flex-col items-center gap-1 w-14">
+                        <img src={i.photo} alt={i.name} className="w-[45px] h-[45px] rounded-full object-cover border border-border" />
                         <span className="text-[10px] text-center">{i.name}</span>
                       </div>
                     ))}
