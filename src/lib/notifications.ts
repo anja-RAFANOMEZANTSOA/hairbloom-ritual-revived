@@ -20,6 +20,30 @@ export type Notification = {
 
 const KEY = "hairbloom_notifications";
 const LAST_KEY = "hairbloom_notifications_last"; // per-kind last generation
+const PREFS_KEY = "hairbloom_notif_prefs";
+
+export type NotifPrefs = Record<NotifKind, boolean>;
+const DEFAULT_PREFS: NotifPrefs = { hydration: true, mask: true, growth: true, weather: true, tip: true, plan: true };
+
+export function getPrefs(): NotifPrefs {
+  if (typeof window === "undefined") return DEFAULT_PREFS;
+  try { return { ...DEFAULT_PREFS, ...JSON.parse(localStorage.getItem(PREFS_KEY) || "{}") }; } catch { return DEFAULT_PREFS; }
+}
+export function setPref(kind: NotifKind, on: boolean) {
+  const next = { ...getPrefs(), [kind]: on };
+  localStorage.setItem(PREFS_KEY, JSON.stringify(next));
+  window.dispatchEvent(new Event("hairbloom:notif"));
+}
+export function usePrefs(): [NotifPrefs, (k: NotifKind, v: boolean) => void] {
+  const [p, setP] = useState<NotifPrefs>(DEFAULT_PREFS);
+  useEffect(() => {
+    const sync = () => setP(getPrefs());
+    sync();
+    window.addEventListener("hairbloom:notif", sync);
+    return () => window.removeEventListener("hairbloom:notif", sync);
+  }, []);
+  return [p, (k, v) => setPref(k, v)];
+}
 
 const DAY = 24 * 60 * 60 * 1000;
 
@@ -49,6 +73,7 @@ function writeLast(v: Record<string, number>) {
 }
 
 export function addNotification(kind: NotifKind, overrides?: Partial<Notification>) {
+  if (!getPrefs()[kind]) return;
   const cfg = SCHEDULES[kind];
   const n: Notification = {
     id: `${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
