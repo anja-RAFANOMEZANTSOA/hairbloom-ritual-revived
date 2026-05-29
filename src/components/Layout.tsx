@@ -7,32 +7,33 @@ import {
 } from "lucide-react";
 import { Logo } from "./Logo";
 import { NotificationBell } from "./NotificationBell";
+import { AIChat } from "./AIChat";
 import { ensureScheduled } from "@/lib/notifications";
 
 const allLinks = [
-  { to: "/", label: "Accueil", icon: Home },
-  { to: "/photo", label: "Photo IA", icon: Camera },
-  { to: "/quiz", label: "Quiz", icon: HelpCircle },
-  { to: "/diagnostic", label: "Diagnostic", icon: FlaskConical },
-  { to: "/recipes", label: "Recettes", icon: Leaf },
-  { to: "/shop", label: "Shop", icon: ShoppingBag },
-  { to: "/avant-apres", label: "Avant / Après", icon: Images },
-  { to: "/meteo", label: "Météo", icon: CloudSun },
-  { to: "/repousse", label: "Repousse", icon: Ruler },
-  { to: "/inci", label: "Scanner INCI", icon: ScanSearch },
-  { to: "/aura", label: "Mon Aura", icon: Sparkles },
-  { to: "/plan", label: "Plan 30 jours", icon: CalendarDays },
-  { to: "/conseils", label: "Conseils", icon: BookOpen },
-  { to: "/historique", label: "Historique", icon: History },
-  { to: "/profil", label: "Profil", icon: User },
+  { to: "/", label: "Accueil", emoji: "🏠", icon: Home },
+  { to: "/photo", label: "Photo IA", emoji: "📸", icon: Camera },
+  { to: "/quiz", label: "Quiz", emoji: "❓", icon: HelpCircle },
+  { to: "/diagnostic", label: "Diagnostic", emoji: "💆", icon: FlaskConical },
+  { to: "/recipes", label: "Recettes", emoji: "🌿", icon: Leaf },
+  { to: "/shop", label: "Shop", emoji: "🛍️", icon: ShoppingBag },
+  { to: "/avant-apres", label: "Avant / Après", emoji: "🖼️", icon: Images },
+  { to: "/meteo", label: "Météo", emoji: "🌦️", icon: CloudSun },
+  { to: "/repousse", label: "Repousse", emoji: "📏", icon: Ruler },
+  { to: "/inci", label: "Scanner INCI", emoji: "🔬", icon: ScanSearch },
+  { to: "/aura", label: "Mon Aura", emoji: "✨", icon: Sparkles },
+  { to: "/plan", label: "Plan 30 jours", emoji: "📅", icon: CalendarDays },
+  { to: "/conseils", label: "Conseils", emoji: "💡", icon: BookOpen },
+  { to: "/historique", label: "Historique", emoji: "📖", icon: History },
+  { to: "/profil", label: "Profil", emoji: "👤", icon: User },
 ] as const;
 
 const bottomNav = [
-  { to: "/", label: "Accueil", icon: Home },
-  { to: "/photo", label: "Photo IA", icon: Camera },
-  { to: "/recipes", label: "Recettes", icon: Leaf },
-  { to: "/shop", label: "Shop", icon: ShoppingBag },
-  { to: "/profil", label: "Profil", icon: User },
+  { to: "/", label: "Accueil", emoji: "🏠", icon: Home },
+  { to: "/photo", label: "Photo IA", emoji: "📸", icon: Camera },
+  { to: "/recipes", label: "Recettes", emoji: "🌿", icon: Leaf },
+  { to: "/shop", label: "Shop", emoji: "🛍️", icon: ShoppingBag },
+  { to: "/profil", label: "Profil", emoji: "👤", icon: User },
 ] as const;
 
 export function Layout({ children }: { children: ReactNode }) {
@@ -55,7 +56,6 @@ export function Layout({ children }: { children: ReactNode }) {
         </Link>
         <nav className="flex-1 overflow-y-auto p-3">
           {allLinks.map((l) => {
-            const Icon = l.icon;
             const active = pathname === l.to;
             return (
               <Link
@@ -65,7 +65,7 @@ export function Layout({ children }: { children: ReactNode }) {
                   active ? "bg-primary text-primary-foreground shadow-sm" : "text-foreground hover:bg-secondary"
                 }`}
               >
-                <Icon className="size-4 shrink-0" />
+                <span className="text-base leading-none w-5 text-center" aria-hidden>{l.emoji}</span>
                 <span>{l.label}</span>
               </Link>
             );
@@ -100,7 +100,6 @@ export function Layout({ children }: { children: ReactNode }) {
       <nav className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-card/95 backdrop-blur border-t border-border">
         <div className="grid grid-cols-5">
           {bottomNav.map((l) => {
-            const Icon = l.icon;
             const active = pathname === l.to;
             return (
               <Link
@@ -110,13 +109,14 @@ export function Layout({ children }: { children: ReactNode }) {
                   active ? "text-primary" : "text-muted-foreground"
                 }`}
               >
-                <Icon className="size-5" />
+                <span className="text-lg leading-none" aria-hidden>{l.emoji}</span>
                 <span>{l.label}</span>
               </Link>
             );
           })}
         </div>
       </nav>
+      <AIChat />
     </div>
   );
 }
