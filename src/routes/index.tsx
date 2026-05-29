@@ -114,7 +114,7 @@ function Index() {
                 <button
                   key={t}
                   onClick={() => toggleType(t)}
-                  className={`relative aspect-square rounded-xl overflow-hidden border-2 transition-all ${active ? "border-primary ring-2 ring-primary/30" : "border-transparent"}`}
+                  className={`relative h-20 rounded-xl overflow-hidden border-2 transition-all ${active ? "border-primary ring-2 ring-primary/30" : "border-transparent"}`}
                 >
                   <img src={unsplash(hairTypePhotos[t], 200)} alt={t} className="w-full h-full object-cover" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
@@ -127,18 +127,18 @@ function Index() {
 
         {/* Quick access */}
         <div>
-          <h2 className="font-display text-xl mb-3">Accès rapide</h2>
+          <h2 className="font-display text-xl mb-3">⚡ Accès rapide</h2>
           <div className="grid grid-cols-3 gap-3">
             {[
-              { to: "/photo", label: "Photo IA", Icon: Camera },
-              { to: "/diagnostic", label: "Diagnostic", Icon: FlaskConical },
-              { to: "/recipes", label: "Recettes", Icon: Leaf },
-              { to: "/shop", label: "Shop", Icon: ShoppingBag },
-              { to: "/aura", label: "Aura", Icon: Sparkles },
-              { to: "/meteo", label: "Météo", Icon: CloudSun },
-            ].map(({ to, label, Icon }) => (
+              { to: "/photo", label: "Photo IA", emoji: "📸" },
+              { to: "/diagnostic", label: "Diagnostic", emoji: "💆" },
+              { to: "/recipes", label: "Recettes", emoji: "🌿" },
+              { to: "/shop", label: "Shop", emoji: "🛍️" },
+              { to: "/aura", label: "Aura", emoji: "✨" },
+              { to: "/meteo", label: "Météo", emoji: "🌦️" },
+            ].map(({ to, label, emoji }) => (
               <Link key={to} to={to} className="bg-card border border-border rounded-2xl p-4 flex flex-col items-center gap-2 hover:border-primary transition-colors">
-                <Icon className="size-5 text-primary" />
+                <span className="text-2xl" aria-hidden>{emoji}</span>
                 <span className="text-xs font-medium text-center">{label}</span>
               </Link>
             ))}
