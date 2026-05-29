@@ -45,20 +45,20 @@ function Photo() {
   return (
     <div className="max-w-2xl mx-auto p-4 md:p-6 space-y-5">
       <header>
-        <h1 className="font-display text-3xl">Photo IA</h1>
+        <h1 className="font-display text-3xl">📸 Photo IA</h1>
         <p className="text-muted-foreground text-sm">Analyse de vos cheveux par intelligence artificielle</p>
       </header>
 
-      <label className={`block border-2 border-dashed border-primary rounded-3xl p-10 text-center cursor-pointer bg-card transition-colors hover:bg-secondary ${preview ? "py-4" : ""}`}>
+      <label className="block border-2 border-dashed border-primary rounded-3xl text-center cursor-pointer bg-card transition-colors hover:bg-secondary overflow-hidden">
         <input type="file" accept="image/*" className="hidden" onChange={(e) => e.target.files?.[0] && onFile(e.target.files[0])} />
         {preview ? (
-          <img src={preview} alt="aperçu" className="max-h-80 mx-auto rounded-2xl" />
+          <img src={preview} alt="aperçu" className="h-[200px] w-full object-cover" />
         ) : (
-          <>
-            <Camera className="size-12 mx-auto text-primary mb-3" />
-            <div className="font-medium">Téléchargez une photo de vos cheveux</div>
+          <div className="h-[200px] flex flex-col items-center justify-center px-4">
+            <Camera className="size-10 text-primary mb-2" />
+            <div className="font-medium text-sm">📷 Téléchargez une photo de vos cheveux</div>
             <div className="text-xs text-muted-foreground mt-1">JPG, PNG — bien éclairée</div>
-          </>
+          </div>
         )}
       </label>
 
