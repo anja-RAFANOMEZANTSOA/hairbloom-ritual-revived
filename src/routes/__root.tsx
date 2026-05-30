@@ -82,9 +82,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "description", content: "Rituel capillaire personnalisé : diagnostic IA, recettes DIY, shop, plan 30 jours." },
       { name: "theme-color", content: "#C9956A" },
       { property: "og:title", content: "HairBloom — Your hair. Your ritual." },
-      { property: "og:description", content: "Rituel capillaire personnalisé." },
+      { property: "og:description", content: "Rituel capillaire personnalisé : diagnostic IA, recettes DIY, shop, plan 30 jours." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
+      { name: "twitter:title", content: "HairBloom — Your hair. Your ritual." },
+      { name: "twitter:description", content: "Rituel capillaire personnalisé : diagnostic IA, recettes DIY, shop, plan 30 jours." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/f68183cb-6ffd-4127-9197-ba52c9172e14/id-preview-4380c37b--90db3a2d-a25b-44bf-9f94-fb0f3e239c4d.lovable.app-1780120391164.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/f68183cb-6ffd-4127-9197-ba52c9172e14/id-preview-4380c37b--90db3a2d-a25b-44bf-9f94-fb0f3e239c4d.lovable.app-1780120391164.png" },
     ],
     links: [
       {
