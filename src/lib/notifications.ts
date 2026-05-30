@@ -36,7 +36,7 @@ const LAST_KEY = "hairbloom_notifications_last"; // per-kind last generation
 const PREFS_KEY = "hairbloom_notif_prefs";
 
 export type NotifPrefs = Record<NotifKind, boolean>;
-const DEFAULT_PREFS: NotifPrefs = { hydration: true, mask: true, growth: true, weather: true, tip: true, plan: true };
+const DEFAULT_PREFS: NotifPrefs = { hydration: true, mask: true, growth: true, weather: true, tip: true, plan: true, aura: true, nutrition: true };
 
 export function getPrefs(): NotifPrefs {
   if (typeof window === "undefined") return DEFAULT_PREFS;
@@ -61,12 +61,14 @@ export function usePrefs(): [NotifPrefs, (k: NotifKind, v: boolean) => void] {
 const DAY = 24 * 60 * 60 * 1000;
 
 const SCHEDULES: Record<NotifKind, { intervalMs: number; emoji: string; title: string; message: string }> = {
-  hydration: { intervalMs: 3 * DAY, emoji: "💧", title: "Rappel hydratation", message: "Pensez à boire de l'eau et à appliquer un soin hydratant aujourd'hui." },
-  mask: { intervalMs: 7 * DAY, emoji: "🌿", title: "Masque DIY hebdomadaire", message: "C'est l'heure de votre masque maison. Découvrez une recette adaptée." },
-  growth: { intervalMs: 30 * DAY, emoji: "📏", title: "Mesure de repousse", message: "Mesurez la repousse de vos cheveux et suivez votre progression." },
-  tip: { intervalMs: 1 * DAY, emoji: "⭐", title: "Conseil du jour", message: "Massez votre cuir chevelu 2 minutes pour stimuler la microcirculation." },
-  plan: { intervalMs: 1 * DAY, emoji: "🎯", title: "Plan 30 jours — tâche du jour", message: "Une nouvelle étape vous attend dans votre plan personnalisé." },
-  weather: { intervalMs: 6 * 60 * 60 * 1000, emoji: "🌦️", title: "Alerte météo capillaire", message: "Humidité élevée prévue — protégez vos longueurs avec un sérum anti-frisottis." },
+  hydration: { intervalMs: 3 * DAY, emoji: "💧", title: "Rappel hydratation", message: "Vos cheveux bouclés ont besoin d'hydratation aujourd'hui. Appliquez votre leave-in!" },
+  mask: { intervalMs: 7 * DAY, emoji: "🌿", title: "Masque de la semaine", message: "C'est le moment de faire votre masque Avocat + Miel + Aloe Vera. 30 minutes pour des cheveux transformés!" },
+  growth: { intervalMs: 30 * DAY, emoji: "📏", title: "Mesure mensuelle", message: "Un mois s'est écoulé. Mesurez vos cheveux et mettez à jour votre tracker de repousse!" },
+  tip: { intervalMs: 1 * DAY, emoji: "⭐", title: "Conseil du jour", message: "Dormez sur une taie d'oreiller en satin pour réduire les frisottis de 43%." },
+  plan: { intervalMs: 1 * DAY, emoji: "🎯", title: "Plan 30 Jours — Jour 3", message: "Aujourd'hui : massage du cuir chevelu 5 minutes avec huile de ricin." },
+  weather: { intervalMs: 6 * 60 * 60 * 1000, emoji: "🌦️", title: "Alerte météo capillaire", message: "Humidité 85% prévue demain. Appliquez un sérum anti-frisottis ce soir!" },
+  aura: { intervalMs: 1 * DAY, emoji: "🌸", title: "Votre Aura du jour", message: "Rose Nacré vous accompagne aujourd'hui. Prenez soin de vos boucles précieuses." },
+  nutrition: { intervalMs: 1 * DAY, emoji: "💊", title: "Rappel nutrition", message: "N'oubliez pas vos compléments biotine et fer aujourd'hui pour des cheveux forts!" },
 };
 
 function read(): Notification[] {
@@ -122,6 +124,10 @@ export function ensureScheduled() {
 
 export function markAllRead() {
   write(read().map((n) => ({ ...n, read: true })));
+}
+
+export function markRead(id: string) {
+  write(read().map((n) => (n.id === id ? { ...n, read: true } : n)));
 }
 
 export function removeNotification(id: string) {
