@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion, AnimatePresence, PanInfo } from "framer-motion";
 import { ArrowLeft, Bell, CheckCheck, Trash2 } from "lucide-react";
-import { Layout } from "@/components/Layout";
 import {
   KIND_COLORS,
   Notification,
@@ -103,8 +102,7 @@ function NotificationsPage() {
   const groups = groupByDate(items);
 
   return (
-    <Layout>
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 py-6">
+    <div className="max-w-3xl mx-auto px-4 sm:px-6 py-6">
         <div className="flex items-center gap-3 mb-6">
           <Link
             to="/"
@@ -173,7 +171,6 @@ function NotificationsPage() {
             </p>
           </div>
         )}
-      </div>
-    </Layout>
+    </div>
   );
 }
