@@ -27,6 +27,7 @@ import { Route as InciRouteImport } from './routes/inci'
 import { Route as HistoriqueRouteImport } from './routes/historique'
 import { Route as DiagnosticRouteImport } from './routes/diagnostic'
 import { Route as ConseilsRouteImport } from './routes/conseils'
+import { Route as CommunauteRouteImport } from './routes/communaute'
 import { Route as AvantApresRouteImport } from './routes/avant-apres'
 import { Route as AuraRouteImport } from './routes/aura'
 import { Route as IndexRouteImport } from './routes/index'
@@ -121,6 +122,11 @@ const ConseilsRoute = ConseilsRouteImport.update({
   path: '/conseils',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CommunauteRoute = CommunauteRouteImport.update({
+  id: '/communaute',
+  path: '/communaute',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AvantApresRoute = AvantApresRouteImport.update({
   id: '/avant-apres',
   path: '/avant-apres',
@@ -141,6 +147,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/aura': typeof AuraRoute
   '/avant-apres': typeof AvantApresRoute
+  '/communaute': typeof CommunauteRoute
   '/conseils': typeof ConseilsRoute
   '/diagnostic': typeof DiagnosticRoute
   '/historique': typeof HistoriqueRoute
@@ -164,6 +171,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/aura': typeof AuraRoute
   '/avant-apres': typeof AvantApresRoute
+  '/communaute': typeof CommunauteRoute
   '/conseils': typeof ConseilsRoute
   '/diagnostic': typeof DiagnosticRoute
   '/historique': typeof HistoriqueRoute
@@ -188,6 +196,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/aura': typeof AuraRoute
   '/avant-apres': typeof AvantApresRoute
+  '/communaute': typeof CommunauteRoute
   '/conseils': typeof ConseilsRoute
   '/diagnostic': typeof DiagnosticRoute
   '/historique': typeof HistoriqueRoute
@@ -213,6 +222,7 @@ export interface FileRouteTypes {
     | '/'
     | '/aura'
     | '/avant-apres'
+    | '/communaute'
     | '/conseils'
     | '/diagnostic'
     | '/historique'
@@ -236,6 +246,7 @@ export interface FileRouteTypes {
     | '/'
     | '/aura'
     | '/avant-apres'
+    | '/communaute'
     | '/conseils'
     | '/diagnostic'
     | '/historique'
@@ -259,6 +270,7 @@ export interface FileRouteTypes {
     | '/'
     | '/aura'
     | '/avant-apres'
+    | '/communaute'
     | '/conseils'
     | '/diagnostic'
     | '/historique'
@@ -283,6 +295,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuraRoute: typeof AuraRoute
   AvantApresRoute: typeof AvantApresRoute
+  CommunauteRoute: typeof CommunauteRoute
   ConseilsRoute: typeof ConseilsRoute
   DiagnosticRoute: typeof DiagnosticRoute
   HistoriqueRoute: typeof HistoriqueRoute
@@ -431,6 +444,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ConseilsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/communaute': {
+      id: '/communaute'
+      path: '/communaute'
+      fullPath: '/communaute'
+      preLoaderRoute: typeof CommunauteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/avant-apres': {
       id: '/avant-apres'
       path: '/avant-apres'
@@ -459,6 +479,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuraRoute: AuraRoute,
   AvantApresRoute: AvantApresRoute,
+  CommunauteRoute: CommunauteRoute,
   ConseilsRoute: ConseilsRoute,
   DiagnosticRoute: DiagnosticRoute,
   HistoriqueRoute: HistoriqueRoute,
