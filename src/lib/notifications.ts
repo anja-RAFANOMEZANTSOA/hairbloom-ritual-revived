@@ -6,7 +6,20 @@ export type NotifKind =
   | "growth"
   | "weather"
   | "tip"
-  | "plan";
+  | "plan"
+  | "aura"
+  | "nutrition";
+
+export const KIND_COLORS: Record<NotifKind, string> = {
+  hydration: "#3b82f6",
+  mask: "#16a34a",
+  growth: "#16a34a",
+  weather: "#3b82f6",
+  tip: "#C9956A",
+  plan: "#C9956A",
+  aura: "#a855f7",
+  nutrition: "#ef4444",
+};
 
 export type Notification = {
   id: string;
