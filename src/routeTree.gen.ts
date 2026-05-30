@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WishlistRouteImport } from './routes/wishlist'
 import { Route as ShopRouteImport } from './routes/shop'
 import { Route as RepousseRouteImport } from './routes/repousse'
 import { Route as RegisterRouteImport } from './routes/register'
@@ -17,17 +18,25 @@ import { Route as QuizRouteImport } from './routes/quiz'
 import { Route as ProfilRouteImport } from './routes/profil'
 import { Route as PlanRouteImport } from './routes/plan'
 import { Route as PhotoRouteImport } from './routes/photo'
+import { Route as PanierRouteImport } from './routes/panier'
 import { Route as NotificationsRouteImport } from './routes/notifications'
 import { Route as MeteoRouteImport } from './routes/meteo'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as JournalRouteImport } from './routes/journal'
 import { Route as InciRouteImport } from './routes/inci'
 import { Route as HistoriqueRouteImport } from './routes/historique'
 import { Route as DiagnosticRouteImport } from './routes/diagnostic'
 import { Route as ConseilsRouteImport } from './routes/conseils'
+import { Route as CommunauteRouteImport } from './routes/communaute'
 import { Route as AvantApresRouteImport } from './routes/avant-apres'
 import { Route as AuraRouteImport } from './routes/aura'
 import { Route as IndexRouteImport } from './routes/index'
 
+const WishlistRoute = WishlistRouteImport.update({
+  id: '/wishlist',
+  path: '/wishlist',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ShopRoute = ShopRouteImport.update({
   id: '/shop',
   path: '/shop',
@@ -68,6 +77,11 @@ const PhotoRoute = PhotoRouteImport.update({
   path: '/photo',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PanierRoute = PanierRouteImport.update({
+  id: '/panier',
+  path: '/panier',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const NotificationsRoute = NotificationsRouteImport.update({
   id: '/notifications',
   path: '/notifications',
@@ -81,6 +95,11 @@ const MeteoRoute = MeteoRouteImport.update({
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JournalRoute = JournalRouteImport.update({
+  id: '/journal',
+  path: '/journal',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InciRoute = InciRouteImport.update({
@@ -103,6 +122,11 @@ const ConseilsRoute = ConseilsRouteImport.update({
   path: '/conseils',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CommunauteRoute = CommunauteRouteImport.update({
+  id: '/communaute',
+  path: '/communaute',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AvantApresRoute = AvantApresRouteImport.update({
   id: '/avant-apres',
   path: '/avant-apres',
@@ -123,13 +147,16 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/aura': typeof AuraRoute
   '/avant-apres': typeof AvantApresRoute
+  '/communaute': typeof CommunauteRoute
   '/conseils': typeof ConseilsRoute
   '/diagnostic': typeof DiagnosticRoute
   '/historique': typeof HistoriqueRoute
   '/inci': typeof InciRoute
+  '/journal': typeof JournalRoute
   '/login': typeof LoginRoute
   '/meteo': typeof MeteoRoute
   '/notifications': typeof NotificationsRoute
+  '/panier': typeof PanierRoute
   '/photo': typeof PhotoRoute
   '/plan': typeof PlanRoute
   '/profil': typeof ProfilRoute
@@ -138,18 +165,22 @@ export interface FileRoutesByFullPath {
   '/register': typeof RegisterRoute
   '/repousse': typeof RepousseRoute
   '/shop': typeof ShopRoute
+  '/wishlist': typeof WishlistRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/aura': typeof AuraRoute
   '/avant-apres': typeof AvantApresRoute
+  '/communaute': typeof CommunauteRoute
   '/conseils': typeof ConseilsRoute
   '/diagnostic': typeof DiagnosticRoute
   '/historique': typeof HistoriqueRoute
   '/inci': typeof InciRoute
+  '/journal': typeof JournalRoute
   '/login': typeof LoginRoute
   '/meteo': typeof MeteoRoute
   '/notifications': typeof NotificationsRoute
+  '/panier': typeof PanierRoute
   '/photo': typeof PhotoRoute
   '/plan': typeof PlanRoute
   '/profil': typeof ProfilRoute
@@ -158,19 +189,23 @@ export interface FileRoutesByTo {
   '/register': typeof RegisterRoute
   '/repousse': typeof RepousseRoute
   '/shop': typeof ShopRoute
+  '/wishlist': typeof WishlistRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/aura': typeof AuraRoute
   '/avant-apres': typeof AvantApresRoute
+  '/communaute': typeof CommunauteRoute
   '/conseils': typeof ConseilsRoute
   '/diagnostic': typeof DiagnosticRoute
   '/historique': typeof HistoriqueRoute
   '/inci': typeof InciRoute
+  '/journal': typeof JournalRoute
   '/login': typeof LoginRoute
   '/meteo': typeof MeteoRoute
   '/notifications': typeof NotificationsRoute
+  '/panier': typeof PanierRoute
   '/photo': typeof PhotoRoute
   '/plan': typeof PlanRoute
   '/profil': typeof ProfilRoute
@@ -179,6 +214,7 @@ export interface FileRoutesById {
   '/register': typeof RegisterRoute
   '/repousse': typeof RepousseRoute
   '/shop': typeof ShopRoute
+  '/wishlist': typeof WishlistRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -186,13 +222,16 @@ export interface FileRouteTypes {
     | '/'
     | '/aura'
     | '/avant-apres'
+    | '/communaute'
     | '/conseils'
     | '/diagnostic'
     | '/historique'
     | '/inci'
+    | '/journal'
     | '/login'
     | '/meteo'
     | '/notifications'
+    | '/panier'
     | '/photo'
     | '/plan'
     | '/profil'
@@ -201,18 +240,22 @@ export interface FileRouteTypes {
     | '/register'
     | '/repousse'
     | '/shop'
+    | '/wishlist'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/aura'
     | '/avant-apres'
+    | '/communaute'
     | '/conseils'
     | '/diagnostic'
     | '/historique'
     | '/inci'
+    | '/journal'
     | '/login'
     | '/meteo'
     | '/notifications'
+    | '/panier'
     | '/photo'
     | '/plan'
     | '/profil'
@@ -221,18 +264,22 @@ export interface FileRouteTypes {
     | '/register'
     | '/repousse'
     | '/shop'
+    | '/wishlist'
   id:
     | '__root__'
     | '/'
     | '/aura'
     | '/avant-apres'
+    | '/communaute'
     | '/conseils'
     | '/diagnostic'
     | '/historique'
     | '/inci'
+    | '/journal'
     | '/login'
     | '/meteo'
     | '/notifications'
+    | '/panier'
     | '/photo'
     | '/plan'
     | '/profil'
@@ -241,19 +288,23 @@ export interface FileRouteTypes {
     | '/register'
     | '/repousse'
     | '/shop'
+    | '/wishlist'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuraRoute: typeof AuraRoute
   AvantApresRoute: typeof AvantApresRoute
+  CommunauteRoute: typeof CommunauteRoute
   ConseilsRoute: typeof ConseilsRoute
   DiagnosticRoute: typeof DiagnosticRoute
   HistoriqueRoute: typeof HistoriqueRoute
   InciRoute: typeof InciRoute
+  JournalRoute: typeof JournalRoute
   LoginRoute: typeof LoginRoute
   MeteoRoute: typeof MeteoRoute
   NotificationsRoute: typeof NotificationsRoute
+  PanierRoute: typeof PanierRoute
   PhotoRoute: typeof PhotoRoute
   PlanRoute: typeof PlanRoute
   ProfilRoute: typeof ProfilRoute
@@ -262,10 +313,18 @@ export interface RootRouteChildren {
   RegisterRoute: typeof RegisterRoute
   RepousseRoute: typeof RepousseRoute
   ShopRoute: typeof ShopRoute
+  WishlistRoute: typeof WishlistRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/wishlist': {
+      id: '/wishlist'
+      path: '/wishlist'
+      fullPath: '/wishlist'
+      preLoaderRoute: typeof WishlistRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/shop': {
       id: '/shop'
       path: '/shop'
@@ -322,6 +381,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PhotoRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/panier': {
+      id: '/panier'
+      path: '/panier'
+      fullPath: '/panier'
+      preLoaderRoute: typeof PanierRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/notifications': {
       id: '/notifications'
       path: '/notifications'
@@ -341,6 +407,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/journal': {
+      id: '/journal'
+      path: '/journal'
+      fullPath: '/journal'
+      preLoaderRoute: typeof JournalRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/inci': {
@@ -371,6 +444,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ConseilsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/communaute': {
+      id: '/communaute'
+      path: '/communaute'
+      fullPath: '/communaute'
+      preLoaderRoute: typeof CommunauteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/avant-apres': {
       id: '/avant-apres'
       path: '/avant-apres'
@@ -399,13 +479,16 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuraRoute: AuraRoute,
   AvantApresRoute: AvantApresRoute,
+  CommunauteRoute: CommunauteRoute,
   ConseilsRoute: ConseilsRoute,
   DiagnosticRoute: DiagnosticRoute,
   HistoriqueRoute: HistoriqueRoute,
   InciRoute: InciRoute,
+  JournalRoute: JournalRoute,
   LoginRoute: LoginRoute,
   MeteoRoute: MeteoRoute,
   NotificationsRoute: NotificationsRoute,
+  PanierRoute: PanierRoute,
   PhotoRoute: PhotoRoute,
   PlanRoute: PlanRoute,
   ProfilRoute: ProfilRoute,
@@ -414,6 +497,7 @@ const rootRouteChildren: RootRouteChildren = {
   RegisterRoute: RegisterRoute,
   RepousseRoute: RepousseRoute,
   ShopRoute: ShopRoute,
+  WishlistRoute: WishlistRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

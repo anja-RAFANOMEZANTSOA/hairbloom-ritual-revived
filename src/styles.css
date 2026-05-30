@@ -155,9 +155,72 @@
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
+    scroll-behavior: smooth;
   }
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
     letter-spacing: -0.01em;
   }
+}
+
+/* ============ HairBloom luxury upgrades ============ */
+.glass {
+  background: rgba(253, 249, 246, 0.78);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 8px 32px rgba(201, 149, 106, 0.15);
+  border: 1px solid rgba(237, 217, 200, 0.6);
+}
+.shimmer-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201,149,106,0.6), transparent);
+}
+.gradient-hero {
+  background: linear-gradient(120deg, #fceadb 0%, #f5d3c4 30%, #e8b4b8 60%, #d8c4e8 100%);
+  background-size: 200% 200%;
+  animation: gradientShift 12s ease infinite;
+}
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+.bokeh::before, .bokeh::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(40px);
+  opacity: 0.55;
+  pointer-events: none;
+}
+.bokeh::before {
+  width: 220px; height: 220px;
+  background: #C9956A;
+  top: -40px; left: -40px;
+  animation: float 9s ease-in-out infinite;
+}
+.bokeh::after {
+  width: 180px; height: 180px;
+  background: #E8B4B8;
+  bottom: -40px; right: -20px;
+  animation: float 11s ease-in-out infinite reverse;
+}
+@keyframes float {
+  0%, 100% { transform: translate(0,0) scale(1); }
+  50% { transform: translate(30px,-20px) scale(1.1); }
+}
+@keyframes bloom-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.4; }
+  50% { transform: scale(1.4); opacity: 0; }
+}
+.bloom-ring::after {
+  content: "";
+  position: absolute; inset: -8px;
+  border-radius: 50%;
+  border: 2px solid #C9956A;
+  animation: bloom-pulse 2s ease-out infinite;
+}
+input:focus-visible, textarea:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(201,149,106,0.25);
+  border-color: #C9956A;
 }
