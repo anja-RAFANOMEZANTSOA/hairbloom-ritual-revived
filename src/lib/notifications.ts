@@ -106,6 +106,34 @@ export function addNotification(kind: NotifKind, overrides?: Partial<Notificatio
 
 export function ensureScheduled() {
   if (typeof window === "undefined") return;
+  // Seed a rich demo set on first visit so the center is never empty.
+  if (read().length === 0) {
+    const now = Date.now();
+    const HOUR = 60 * 60 * 1000;
+    const seeds: Array<{ kind: NotifKind; ageMs: number }> = [
+      { kind: "tip", ageMs: 1 * HOUR },
+      { kind: "aura", ageMs: 3 * HOUR },
+      { kind: "hydration", ageMs: 6 * HOUR },
+      { kind: "plan", ageMs: 10 * HOUR },
+      { kind: "nutrition", ageMs: 26 * HOUR },
+      { kind: "weather", ageMs: 30 * HOUR },
+      { kind: "mask", ageMs: 3 * 24 * HOUR },
+      { kind: "growth", ageMs: 9 * 24 * HOUR },
+    ];
+    const items: Notification[] = seeds.map((s, i) => {
+      const cfg = SCHEDULES[s.kind];
+      return {
+        id: `seed_${i}_${s.kind}`,
+        kind: s.kind,
+        emoji: cfg.emoji,
+        title: cfg.title,
+        message: cfg.message,
+        createdAt: now - s.ageMs,
+        read: false,
+      };
+    });
+    write(items);
+  }
   const last = readLast();
   const now = Date.now();
   let changed = false;
