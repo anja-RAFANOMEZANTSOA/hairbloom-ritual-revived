@@ -17,6 +17,7 @@ import { Route as QuizRouteImport } from './routes/quiz'
 import { Route as ProfilRouteImport } from './routes/profil'
 import { Route as PlanRouteImport } from './routes/plan'
 import { Route as PhotoRouteImport } from './routes/photo'
+import { Route as NotificationsRouteImport } from './routes/notifications'
 import { Route as MeteoRouteImport } from './routes/meteo'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as InciRouteImport } from './routes/inci'
@@ -65,6 +66,11 @@ const PlanRoute = PlanRouteImport.update({
 const PhotoRoute = PhotoRouteImport.update({
   id: '/photo',
   path: '/photo',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NotificationsRoute = NotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MeteoRoute = MeteoRouteImport.update({
@@ -123,6 +129,7 @@ export interface FileRoutesByFullPath {
   '/inci': typeof InciRoute
   '/login': typeof LoginRoute
   '/meteo': typeof MeteoRoute
+  '/notifications': typeof NotificationsRoute
   '/photo': typeof PhotoRoute
   '/plan': typeof PlanRoute
   '/profil': typeof ProfilRoute
@@ -142,6 +149,7 @@ export interface FileRoutesByTo {
   '/inci': typeof InciRoute
   '/login': typeof LoginRoute
   '/meteo': typeof MeteoRoute
+  '/notifications': typeof NotificationsRoute
   '/photo': typeof PhotoRoute
   '/plan': typeof PlanRoute
   '/profil': typeof ProfilRoute
@@ -162,6 +170,7 @@ export interface FileRoutesById {
   '/inci': typeof InciRoute
   '/login': typeof LoginRoute
   '/meteo': typeof MeteoRoute
+  '/notifications': typeof NotificationsRoute
   '/photo': typeof PhotoRoute
   '/plan': typeof PlanRoute
   '/profil': typeof ProfilRoute
@@ -183,6 +192,7 @@ export interface FileRouteTypes {
     | '/inci'
     | '/login'
     | '/meteo'
+    | '/notifications'
     | '/photo'
     | '/plan'
     | '/profil'
@@ -202,6 +212,7 @@ export interface FileRouteTypes {
     | '/inci'
     | '/login'
     | '/meteo'
+    | '/notifications'
     | '/photo'
     | '/plan'
     | '/profil'
@@ -221,6 +232,7 @@ export interface FileRouteTypes {
     | '/inci'
     | '/login'
     | '/meteo'
+    | '/notifications'
     | '/photo'
     | '/plan'
     | '/profil'
@@ -241,6 +253,7 @@ export interface RootRouteChildren {
   InciRoute: typeof InciRoute
   LoginRoute: typeof LoginRoute
   MeteoRoute: typeof MeteoRoute
+  NotificationsRoute: typeof NotificationsRoute
   PhotoRoute: typeof PhotoRoute
   PlanRoute: typeof PlanRoute
   ProfilRoute: typeof ProfilRoute
@@ -307,6 +320,13 @@ declare module '@tanstack/react-router' {
       path: '/photo'
       fullPath: '/photo'
       preLoaderRoute: typeof PhotoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/notifications': {
+      id: '/notifications'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof NotificationsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/meteo': {
@@ -385,6 +405,7 @@ const rootRouteChildren: RootRouteChildren = {
   InciRoute: InciRoute,
   LoginRoute: LoginRoute,
   MeteoRoute: MeteoRoute,
+  NotificationsRoute: NotificationsRoute,
   PhotoRoute: PhotoRoute,
   PlanRoute: PlanRoute,
   ProfilRoute: ProfilRoute,
@@ -397,3 +418,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
