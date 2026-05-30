@@ -22,6 +22,7 @@ import { Route as PanierRouteImport } from './routes/panier'
 import { Route as NotificationsRouteImport } from './routes/notifications'
 import { Route as MeteoRouteImport } from './routes/meteo'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as JournalRouteImport } from './routes/journal'
 import { Route as InciRouteImport } from './routes/inci'
 import { Route as HistoriqueRouteImport } from './routes/historique'
 import { Route as DiagnosticRouteImport } from './routes/diagnostic'
@@ -95,6 +96,11 @@ const LoginRoute = LoginRouteImport.update({
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const JournalRoute = JournalRouteImport.update({
+  id: '/journal',
+  path: '/journal',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const InciRoute = InciRouteImport.update({
   id: '/inci',
   path: '/inci',
@@ -139,6 +145,7 @@ export interface FileRoutesByFullPath {
   '/diagnostic': typeof DiagnosticRoute
   '/historique': typeof HistoriqueRoute
   '/inci': typeof InciRoute
+  '/journal': typeof JournalRoute
   '/login': typeof LoginRoute
   '/meteo': typeof MeteoRoute
   '/notifications': typeof NotificationsRoute
@@ -161,6 +168,7 @@ export interface FileRoutesByTo {
   '/diagnostic': typeof DiagnosticRoute
   '/historique': typeof HistoriqueRoute
   '/inci': typeof InciRoute
+  '/journal': typeof JournalRoute
   '/login': typeof LoginRoute
   '/meteo': typeof MeteoRoute
   '/notifications': typeof NotificationsRoute
@@ -184,6 +192,7 @@ export interface FileRoutesById {
   '/diagnostic': typeof DiagnosticRoute
   '/historique': typeof HistoriqueRoute
   '/inci': typeof InciRoute
+  '/journal': typeof JournalRoute
   '/login': typeof LoginRoute
   '/meteo': typeof MeteoRoute
   '/notifications': typeof NotificationsRoute
@@ -208,6 +217,7 @@ export interface FileRouteTypes {
     | '/diagnostic'
     | '/historique'
     | '/inci'
+    | '/journal'
     | '/login'
     | '/meteo'
     | '/notifications'
@@ -230,6 +240,7 @@ export interface FileRouteTypes {
     | '/diagnostic'
     | '/historique'
     | '/inci'
+    | '/journal'
     | '/login'
     | '/meteo'
     | '/notifications'
@@ -252,6 +263,7 @@ export interface FileRouteTypes {
     | '/diagnostic'
     | '/historique'
     | '/inci'
+    | '/journal'
     | '/login'
     | '/meteo'
     | '/notifications'
@@ -275,6 +287,7 @@ export interface RootRouteChildren {
   DiagnosticRoute: typeof DiagnosticRoute
   HistoriqueRoute: typeof HistoriqueRoute
   InciRoute: typeof InciRoute
+  JournalRoute: typeof JournalRoute
   LoginRoute: typeof LoginRoute
   MeteoRoute: typeof MeteoRoute
   NotificationsRoute: typeof NotificationsRoute
@@ -383,6 +396,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/journal': {
+      id: '/journal'
+      path: '/journal'
+      fullPath: '/journal'
+      preLoaderRoute: typeof JournalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/inci': {
       id: '/inci'
       path: '/inci'
@@ -443,6 +463,7 @@ const rootRouteChildren: RootRouteChildren = {
   DiagnosticRoute: DiagnosticRoute,
   HistoriqueRoute: HistoriqueRoute,
   InciRoute: InciRoute,
+  JournalRoute: JournalRoute,
   LoginRoute: LoginRoute,
   MeteoRoute: MeteoRoute,
   NotificationsRoute: NotificationsRoute,
