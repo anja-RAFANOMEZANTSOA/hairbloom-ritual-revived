@@ -17,6 +17,7 @@ import { Route as QuizRouteImport } from './routes/quiz'
 import { Route as ProfilRouteImport } from './routes/profil'
 import { Route as PlanRouteImport } from './routes/plan'
 import { Route as PhotoRouteImport } from './routes/photo'
+import { Route as PanierRouteImport } from './routes/panier'
 import { Route as NotificationsRouteImport } from './routes/notifications'
 import { Route as MeteoRouteImport } from './routes/meteo'
 import { Route as LoginRouteImport } from './routes/login'
@@ -66,6 +67,11 @@ const PlanRoute = PlanRouteImport.update({
 const PhotoRoute = PhotoRouteImport.update({
   id: '/photo',
   path: '/photo',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PanierRoute = PanierRouteImport.update({
+  id: '/panier',
+  path: '/panier',
   getParentRoute: () => rootRouteImport,
 } as any)
 const NotificationsRoute = NotificationsRouteImport.update({
@@ -130,6 +136,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/meteo': typeof MeteoRoute
   '/notifications': typeof NotificationsRoute
+  '/panier': typeof PanierRoute
   '/photo': typeof PhotoRoute
   '/plan': typeof PlanRoute
   '/profil': typeof ProfilRoute
@@ -150,6 +157,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/meteo': typeof MeteoRoute
   '/notifications': typeof NotificationsRoute
+  '/panier': typeof PanierRoute
   '/photo': typeof PhotoRoute
   '/plan': typeof PlanRoute
   '/profil': typeof ProfilRoute
@@ -171,6 +179,7 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/meteo': typeof MeteoRoute
   '/notifications': typeof NotificationsRoute
+  '/panier': typeof PanierRoute
   '/photo': typeof PhotoRoute
   '/plan': typeof PlanRoute
   '/profil': typeof ProfilRoute
@@ -193,6 +202,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/meteo'
     | '/notifications'
+    | '/panier'
     | '/photo'
     | '/plan'
     | '/profil'
@@ -213,6 +223,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/meteo'
     | '/notifications'
+    | '/panier'
     | '/photo'
     | '/plan'
     | '/profil'
@@ -233,6 +244,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/meteo'
     | '/notifications'
+    | '/panier'
     | '/photo'
     | '/plan'
     | '/profil'
@@ -254,6 +266,7 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   MeteoRoute: typeof MeteoRoute
   NotificationsRoute: typeof NotificationsRoute
+  PanierRoute: typeof PanierRoute
   PhotoRoute: typeof PhotoRoute
   PlanRoute: typeof PlanRoute
   ProfilRoute: typeof ProfilRoute
@@ -320,6 +333,13 @@ declare module '@tanstack/react-router' {
       path: '/photo'
       fullPath: '/photo'
       preLoaderRoute: typeof PhotoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/panier': {
+      id: '/panier'
+      path: '/panier'
+      fullPath: '/panier'
+      preLoaderRoute: typeof PanierRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/notifications': {
@@ -406,6 +426,7 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   MeteoRoute: MeteoRoute,
   NotificationsRoute: NotificationsRoute,
+  PanierRoute: PanierRoute,
   PhotoRoute: PhotoRoute,
   PlanRoute: PlanRoute,
   ProfilRoute: ProfilRoute,
@@ -418,3 +439,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
