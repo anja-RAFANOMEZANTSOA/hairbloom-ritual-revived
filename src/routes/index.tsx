@@ -27,21 +27,17 @@ function Index() {
   return (
     <div className="max-w-5xl mx-auto">
       {/* Hero */}
-      <section
-        className="relative h-72 md:h-96 bg-cover bg-center"
-        style={{ backgroundImage: `url(${unsplash("photo-1560869713-7d0a29430803", 1400)})` }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-b from-[rgba(44,24,16,0.3)] via-transparent to-[rgba(44,24,16,0.7)]" />
+      <section className="relative h-72 md:h-96 overflow-hidden gradient-hero bokeh">
         <div className="relative h-full flex flex-col justify-between p-6">
           <div className="flex items-center gap-2 lg:hidden">
             <Logo size={36} />
-            <span className="font-display text-xl text-white">HairBloom</span>
+            <span className="font-display text-xl text-brown">HairBloom</span>
           </div>
-          <div className="text-white">
+          <div className="text-brown">
             <h1 className="font-display text-3xl md:text-5xl">
-              Bonjour {profile.name || "vous"} <Sparkles className="inline size-6" />
+              Bonjour {profile.name || "vous"} <Sparkles className="inline size-6 text-primary" />
             </h1>
-            <p className="opacity-90 mt-2 italic">Your hair. Your ritual.</p>
+            <p className="opacity-80 mt-2 italic">Your hair. Your ritual.</p>
           </div>
         </div>
       </section>
