@@ -145,6 +145,10 @@ function Profil() {
         </select>
       </div>
 
+      <button onClick={redoAnalysis} className="w-full py-3 rounded-2xl bg-primary/10 border border-primary/40 text-primary text-sm font-medium flex items-center justify-center gap-2 hover:bg-primary/20 transition-colors">
+        🔄 Refaire mon analyse
+      </button>
+
       <button onClick={reset} className="w-full py-3 rounded-2xl border border-destructive/40 text-destructive text-sm flex items-center justify-center gap-2">
         <RotateCcw className="size-4" /> Réinitialiser mon profil
       </button>
