@@ -15,6 +15,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { useAuth, PUBLIC_ROUTES } from "@/lib/auth";
 import { useEffect } from "react";
 import { useRouterState, useNavigate } from "@tanstack/react-router";
+import { isInitialAnalysisDone } from "@/lib/initial-analysis";
 
 function NotFoundComponent() {
   return (
@@ -133,12 +134,21 @@ function AuthGate() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const navigate = useNavigate();
   const isPublic = PUBLIC_ROUTES.includes(pathname);
+  const ANALYSIS_ALLOWED = ["/analyse-initiale", "/photo", "/quiz"];
 
   useEffect(() => {
     if (!ready) return;
     if (!isAuthenticated && !isPublic) navigate({ to: "/login", replace: true });
     if (isAuthenticated && isPublic) navigate({ to: "/", replace: true });
-  }, [ready, isAuthenticated, isPublic, navigate]);
+    if (
+      isAuthenticated &&
+      !isPublic &&
+      !isInitialAnalysisDone() &&
+      !ANALYSIS_ALLOWED.includes(pathname)
+    ) {
+      navigate({ to: "/analyse-initiale", replace: true });
+    }
+  }, [ready, isAuthenticated, isPublic, pathname, navigate]);
 
   if (!ready) return null;
 
