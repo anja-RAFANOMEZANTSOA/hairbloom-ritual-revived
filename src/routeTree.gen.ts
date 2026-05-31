@@ -30,6 +30,7 @@ import { Route as ConseilsRouteImport } from './routes/conseils'
 import { Route as CommunauteRouteImport } from './routes/communaute'
 import { Route as AvantApresRouteImport } from './routes/avant-apres'
 import { Route as AuraRouteImport } from './routes/aura'
+import { Route as AnalyseInitialeRouteImport } from './routes/analyse-initiale'
 import { Route as IndexRouteImport } from './routes/index'
 
 const WishlistRoute = WishlistRouteImport.update({
@@ -137,6 +138,11 @@ const AuraRoute = AuraRouteImport.update({
   path: '/aura',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AnalyseInitialeRoute = AnalyseInitialeRouteImport.update({
+  id: '/analyse-initiale',
+  path: '/analyse-initiale',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -145,6 +151,7 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/analyse-initiale': typeof AnalyseInitialeRoute
   '/aura': typeof AuraRoute
   '/avant-apres': typeof AvantApresRoute
   '/communaute': typeof CommunauteRoute
@@ -169,6 +176,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/analyse-initiale': typeof AnalyseInitialeRoute
   '/aura': typeof AuraRoute
   '/avant-apres': typeof AvantApresRoute
   '/communaute': typeof CommunauteRoute
@@ -194,6 +202,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/analyse-initiale': typeof AnalyseInitialeRoute
   '/aura': typeof AuraRoute
   '/avant-apres': typeof AvantApresRoute
   '/communaute': typeof CommunauteRoute
@@ -220,6 +229,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/analyse-initiale'
     | '/aura'
     | '/avant-apres'
     | '/communaute'
@@ -244,6 +254,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/analyse-initiale'
     | '/aura'
     | '/avant-apres'
     | '/communaute'
@@ -268,6 +279,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/analyse-initiale'
     | '/aura'
     | '/avant-apres'
     | '/communaute'
@@ -293,6 +305,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AnalyseInitialeRoute: typeof AnalyseInitialeRoute
   AuraRoute: typeof AuraRoute
   AvantApresRoute: typeof AvantApresRoute
   CommunauteRoute: typeof CommunauteRoute
@@ -465,6 +478,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuraRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/analyse-initiale': {
+      id: '/analyse-initiale'
+      path: '/analyse-initiale'
+      fullPath: '/analyse-initiale'
+      preLoaderRoute: typeof AnalyseInitialeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -477,6 +497,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AnalyseInitialeRoute: AnalyseInitialeRoute,
   AuraRoute: AuraRoute,
   AvantApresRoute: AvantApresRoute,
   CommunauteRoute: CommunauteRoute,
