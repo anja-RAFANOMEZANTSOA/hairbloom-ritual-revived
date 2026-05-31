@@ -5,6 +5,7 @@ import { auras, recipes } from "@/lib/hair-data";
 import { toast } from "sonner";
 import { logout, useAuth } from "@/lib/auth";
 import { usePrefs, type NotifPrefs } from "@/lib/notifications";
+import { resetInitialAnalysis } from "@/lib/initial-analysis";
 
 export const Route = createFileRoute("/profil")({ component: Profil });
 
@@ -39,6 +40,11 @@ function Profil() {
     logout();
     toast.success("À bientôt 🌸");
     navigate({ to: "/login" });
+  };
+
+  const redoAnalysis = () => {
+    resetInitialAnalysis();
+    navigate({ to: "/analyse-initiale" });
   };
 
   const initial = (user?.firstName || profile.name || "?").charAt(0).toUpperCase();
