@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate, useSearch } from "@tanstack/react-router";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Camera, Upload, Sparkles, Share2, Loader2 } from "lucide-react";
@@ -7,11 +7,17 @@ import { analyzeHairPhoto } from "@/lib/ai.functions";
 import { saveProfile } from "@/lib/storage";
 import { toast } from "sonner";
 import { addHistory } from "@/lib/history";
+import { markInitialAnalysisDone } from "@/lib/initial-analysis";
 
-export const Route = createFileRoute("/photo")({ component: Photo });
+export const Route = createFileRoute("/photo")({
+  validateSearch: (s: Record<string, unknown>) => ({ initial: s.initial === "1" ? "1" : undefined }),
+  component: Photo,
+});
 
 function Photo() {
   const analyze = useServerFn(analyzeHairPhoto);
+  const navigate = useNavigate();
+  const { initial } = useSearch({ from: "/photo" });
   const [preview, setPreview] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
@@ -34,6 +40,10 @@ function Photo() {
         if (r.result?.hairType) saveProfile({ hairType: r.result.hairType, texture: r.result.texture, porosity: r.result.porosity });
         addHistory("photo", `Type ${r.result?.hairType ?? "—"} · ${r.result?.condition ?? ""}`.trim(), r.result);
         toast.success("Analyse terminée");
+        if (initial === "1") {
+          markInitialAnalysisDone();
+          setTimeout(() => navigate({ to: "/", replace: true }), 1500);
+        }
       }
     } catch (e: any) {
       toast.error(e.message || "Erreur");
