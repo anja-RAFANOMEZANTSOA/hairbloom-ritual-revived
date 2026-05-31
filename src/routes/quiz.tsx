@@ -1,12 +1,16 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate, useSearch } from "@tanstack/react-router";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { saveProfile } from "@/lib/storage";
 import { toast } from "sonner";
 import { addHistory } from "@/lib/history";
+import { markInitialAnalysisDone } from "@/lib/initial-analysis";
 
-export const Route = createFileRoute("/quiz")({ component: Quiz });
+export const Route = createFileRoute("/quiz")({
+  validateSearch: (s: Record<string, unknown>) => ({ initial: s.initial === "1" ? "1" : undefined }),
+  component: Quiz,
+});
 
 const questions = [
   { q: "Pour qui est ce diagnostic ?", o: ["Femme", "Homme", "Enfant", "Tous"] },
@@ -24,6 +28,8 @@ const questions = [
 ];
 
 function Quiz() {
+  const navigate = useNavigate();
+  const { initial } = useSearch({ from: "/quiz" });
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<string[]>([]);
   const [done, setDone] = useState(false);
@@ -42,6 +48,10 @@ function Quiz() {
       addHistory("quiz", `Type ${hairType} · porosité ${porosity}`, { hairType, porosity, texture: next[2], goal: next[10], answers: next });
       setDone(true);
       toast.success("Profil enregistré");
+      if (initial === "1") {
+        markInitialAnalysisDone();
+        setTimeout(() => navigate({ to: "/", replace: true }), 1800);
+      }
     }
   };
 
