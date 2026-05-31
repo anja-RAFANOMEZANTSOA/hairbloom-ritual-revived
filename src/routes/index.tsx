@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { Camera, HelpCircle, Leaf, ShoppingBag, Sparkles, CloudSun, FlaskConical } from "lucide-react";
@@ -6,6 +6,7 @@ import { useProfile } from "@/lib/storage";
 import { unsplash, dailyTips, hairTypePhotos } from "@/lib/hair-data";
 import { Logo } from "@/components/Logo";
 import { useEffect, useState } from "react";
+import { resetInitialAnalysis } from "@/lib/initial-analysis";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -13,6 +14,11 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   const [profile] = useProfile();
+  const navigate = useNavigate();
+  const redoAnalysis = () => {
+    resetInitialAnalysis();
+    navigate({ to: "/analyse-initiale" });
+  };
   const [tipIdx, setTipIdx] = useState(0);
   useEffect(() => {
     const t = setInterval(() => setTipIdx((i) => (i + 1) % dailyTips.length), 6000);
@@ -43,6 +49,12 @@ function Index() {
       </section>
 
       <div className="p-4 md:p-6 space-y-6">
+        <button
+          onClick={redoAnalysis}
+          className="w-full md:w-auto px-5 py-3 rounded-2xl bg-primary/10 border border-primary/30 text-primary font-medium text-sm hover:bg-primary/20 transition-colors flex items-center justify-center gap-2"
+        >
+          🔄 Refaire mon analyse
+        </button>
         {/* Daily tip */}
         <motion.div
           key={tipIdx}
