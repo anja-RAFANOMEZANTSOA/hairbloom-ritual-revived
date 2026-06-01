@@ -1,58 +1,68 @@
-## HairBloom — Premium Hair Care Web App
+## HairBloom — Icons + Post-Analysis Results Overhaul
 
-Build the complete 14-screen app on TanStack Start with Tailwind, Framer Motion, Recharts, Lucide, sonner, and Lovable AI Gateway (replacing direct Gemini calls — no client-side API keys).
+This is a large two-part upgrade. Here's the breakdown before I build.
 
-### Architecture
+---
 
-- **Routing**: `src/routes/` with bottom nav (mobile) + sidebar (desktop) in `__root.tsx`
-- **State**: localStorage hook `useHairProfile` for name, profile type, hairType, porosity, problems, goal, saved recipes, completed days, before/after gallery
-- **Design system**: extend `src/styles.css` with HairBloom tokens (caramel, dark brown, muted, bg, card, border, accent pink) in oklch; import Playfair Display + Poppins from Google Fonts
-- **AI**: TanStack `createServerFn` calling Lovable AI Gateway (`google/gemini-2.5-flash` for text, `google/gemini-2.5-flash-image` for vision) — server keeps `LOVABLE_API_KEY`. Three functions: `analyzeHairPhoto`, `diagnoseHair`, `scanINCI`.
-- **External APIs** (client, no key): `ipapi.co/json/` + `api.open-meteo.com/v1/forecast`
-- **Onboarding**: full-screen overlay component shown when `localStorage.hairbloom_onboarded !== "true"`
+### Part 1 — Icon system (Lucide outline, no emojis)
 
-### Files to create
+Create a single `src/components/icons.ts` exporting the icon set as named aliases mapped to the closest Lucide equivalents (Tabler-style icons aren't in `lucide-react`, so I use the closest outline match):
 
 ```
-src/styles.css                          (update tokens + fonts)
-src/lib/storage.ts                      (typed localStorage helpers)
-src/lib/hair-data.ts                    (recipes, products, auras, plan, tips)
-src/lib/ai.functions.ts                 (createServerFn → Lovable AI Gateway)
-src/components/Layout.tsx               (sidebar + bottom nav)
-src/components/Logo.tsx                 (SVG bloom logo)
-src/components/Onboarding.tsx           (3 steps)
-src/components/AuraCard.tsx
-src/components/RecipeCard.tsx
-src/components/ProductCard.tsx
-src/components/BeforeAfterSlider.tsx
-src/routes/__root.tsx                   (wrap Layout + Onboarding)
-src/routes/index.tsx                    (Home dashboard)
-src/routes/photo.tsx                    (Photo IA)
-src/routes/quiz.tsx                     (12-question quiz)
-src/routes/diagnostic.tsx
-src/routes/recipes.tsx                  (25 recipes + filter chips)
-src/routes/shop.tsx                     (35 products + filters)
-src/routes/avant-apres.tsx
-src/routes/meteo.tsx
-src/routes/repousse.tsx                 (Recharts)
-src/routes/inci.tsx
-src/routes/aura.tsx
-src/routes/plan.tsx                     (30-day plan)
-src/routes/conseils.tsx
-src/routes/profil.tsx
+Home2 → Home  /  CameraSelfie → Camera  /  Droplet → Droplet
+Stethoscope → Stethoscope  /  Sparkles → Sparkles  /  CloudRain → CloudRain
+ShoppingBag → ShoppingBag  /  CalendarCheck → CalendarCheck
+RulerMeasure → Ruler  /  Scan → ScanLine  /  UsersRound → Users
+Notebook → Notebook  /  BellRinging → BellRing  /  History → History
+MessageCircle → MessageCircle  /  UserCircle → UserCircle2
+Plant2 → Sprout  /  Heart → Heart  /  Trophy → Trophy
+Flask → FlaskConical  /  Flame → Flame  /  Leaf → Leaf
+ShoppingCart → ShoppingCart
 ```
 
-### AI integration (replaces VITE_GEMINI_API_KEY)
+Sizes: 20 nav, 18 cards, 24 headers. Active color `#C9956A` (token already in theme), inactive `var(--muted-foreground)`. Sweep these files and replace emoji-as-icon usage with `<Icon className="size-X" />`: `Layout.tsx`, `index.tsx`, `profil.tsx`, `notifications.tsx`, `historique.tsx`, `shop.tsx`, `recipes.tsx`, `panier.tsx`, `wishlist.tsx`, `communaute.tsx`, `journal.tsx`, `meteo.tsx`, `plan.tsx`, `repousse.tsx`, `aura.tsx`, `conseils.tsx`, `inci.tsx`, `analyse-initiale.tsx`. Emojis inside user-facing prose (titles like "Découvrons vos cheveux ✨", notification descriptions) stay — only emojis that act as UI icons are removed.
 
-User asked for Gemini with `VITE_GEMINI_API_KEY` on the client. I'll route through Lovable AI Gateway server functions instead — secure (no exposed key), same Gemini models, no setup needed.
+---
 
-### Scope notes
+### Part 2 — Post-analysis Results screen with 5 tabs
 
-- Mobile-first with bottom nav (5 tabs: Accueil/Photo IA/Recettes/Shop/Profil), sidebar for desktop lists all 14 screens
-- All 25 recipes + 35 products in `hair-data.ts` exactly as specified
-- Framer Motion page transitions + card hover
-- PWA manifest with `theme_color #C9956A`
-- Toast confirmations via sonner
-- French copy throughout
+New route `src/routes/resultats.tsx` (auto-registered by TanStack file routing). Both `photo.tsx` and `quiz.tsx` push their result into `localStorage["hairbloom_last_analysis"]` then navigate to `/resultats`. The `initial=1` flow keeps working (marks analysis done first).
 
-After approval I'll install `framer-motion`, `recharts`, `sonner` and build everything.
+New lib `src/lib/recommendations.ts`:
+- `matchRecipes(profile) → Recipe[4]` from existing `hair-data.ts` recipes scored by hair type + problems.
+- `matchProducts(profile) → Product[5]` from existing shop catalog scored similarly.
+- `buildRoutine(profile) → { Lundi…Dimanche }` deterministic week plan from hair type / porosity.
+- `buildChallenge(profile) → 21 days` grouped in 3 phases as specified.
+
+New lib `src/lib/challenge.ts`:
+- Stores challenge start date, per-day completion in `localStorage["hairbloom_challenge"]`.
+- Helpers: `startChallenge()`, `toggleDay(n)`, `getProgress()`, `getStreak()`, `getDailyPhrase()`.
+
+#### Tabs (Framer Motion `AnimatePresence mode="wait"`)
+
+1. **Mon Bilan** — curl spectrum strip (1a→4c) with animated dot at detected type; porosity = 3 dots filled; condition + scalp badges; top 3 problems each with animated severity bar; circular SVG progress ring for hair-health score /100 (computed from condition + problem count).
+2. **Mes Recettes** — 4 recipe cards (cover 100px, name, benefit badge, 4 ingredient circles 35px, prep time, "Voir la recette complète" → `/recipes?id=…`).
+3. **Mes Produits** — 5 product cards (70×70 image, brand caps, name, "Pourquoi" line, stars, price range, "Voir le produit" external link, `rel="noopener sponsored"`).
+4. **Ma Routine** — 7 day cards Lun→Dim with day name, Lucide icon, task, product/recipe, est. time, tip.
+5. **Mon Défi** — hero card (name + start date + animated ring + daily phrase). Three collapsed phase sections, each expanding to its 7 day cards with: number, title, Lucide icon, instructions, time, checkbox (persisted), optional link to recipe/product. Streak counter + per-week progress bars. Day 21 completion triggers a confetti screen (CSS-only particles) + achievements list + share button.
+
+Bottom action bar: `Sauvegarder mon profil` / `Commencer le défi` / `Aller à l'accueil`.
+
+#### Home + flow integration
+
+- "Rejoindre le défi" caramel button on home dashboard linking to `/resultats?tab=defi`.
+- `photo.tsx` and `quiz.tsx`: on success → save snapshot → `navigate({ to: '/resultats' })` (or stay in initial flow → mark done → go to `/resultats`).
+
+#### Styling
+
+All headings use existing `font-display` (Playfair Display already configured). Caramel/cream tokens already in `styles.css`. No new tokens needed.
+
+---
+
+### Out of scope (to keep this shippable)
+
+- I will not touch backend AI prompts.
+- Emojis inside user-written content/copy stay; only emoji-as-icon get replaced.
+- Pull-to-refresh and confetti library — I'll use a lightweight CSS confetti, no new dep.
+
+Reply "go" to build, or tell me what to trim.
