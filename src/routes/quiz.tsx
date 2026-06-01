@@ -46,12 +46,13 @@ function Quiz() {
       const porosity = porosityMap[next[8]] || "Moyenne";
       saveProfile({ hairType, texture: next[2], porosity, problem: next[10], goal: next[10] });
       addHistory("quiz", `Type ${hairType} · porosité ${porosity}`, { hairType, porosity, texture: next[2], goal: next[10], answers: next });
+      try { localStorage.setItem("hairbloom_last_analysis", JSON.stringify({ hairType, porosity, texture: next[2], mainProblems: [next[10]] })); } catch {}
       setDone(true);
       toast.success("Profil enregistré");
       if (initial === "1") {
         markInitialAnalysisDone();
-        setTimeout(() => navigate({ to: "/", replace: true }), 1800);
       }
+      setTimeout(() => navigate({ to: "/resultats", replace: true }), 1200);
     }
   };
 

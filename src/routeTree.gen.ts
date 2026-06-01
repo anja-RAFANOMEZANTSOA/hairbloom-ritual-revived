@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as WishlistRouteImport } from './routes/wishlist'
 import { Route as ShopRouteImport } from './routes/shop'
+import { Route as ResultatsRouteImport } from './routes/resultats'
 import { Route as RepousseRouteImport } from './routes/repousse'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as RecipesRouteImport } from './routes/recipes'
@@ -41,6 +42,11 @@ const WishlistRoute = WishlistRouteImport.update({
 const ShopRoute = ShopRouteImport.update({
   id: '/shop',
   path: '/shop',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResultatsRoute = ResultatsRouteImport.update({
+  id: '/resultats',
+  path: '/resultats',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RepousseRoute = RepousseRouteImport.update({
@@ -171,6 +177,7 @@ export interface FileRoutesByFullPath {
   '/recipes': typeof RecipesRoute
   '/register': typeof RegisterRoute
   '/repousse': typeof RepousseRoute
+  '/resultats': typeof ResultatsRoute
   '/shop': typeof ShopRoute
   '/wishlist': typeof WishlistRoute
 }
@@ -196,6 +203,7 @@ export interface FileRoutesByTo {
   '/recipes': typeof RecipesRoute
   '/register': typeof RegisterRoute
   '/repousse': typeof RepousseRoute
+  '/resultats': typeof ResultatsRoute
   '/shop': typeof ShopRoute
   '/wishlist': typeof WishlistRoute
 }
@@ -222,6 +230,7 @@ export interface FileRoutesById {
   '/recipes': typeof RecipesRoute
   '/register': typeof RegisterRoute
   '/repousse': typeof RepousseRoute
+  '/resultats': typeof ResultatsRoute
   '/shop': typeof ShopRoute
   '/wishlist': typeof WishlistRoute
 }
@@ -249,6 +258,7 @@ export interface FileRouteTypes {
     | '/recipes'
     | '/register'
     | '/repousse'
+    | '/resultats'
     | '/shop'
     | '/wishlist'
   fileRoutesByTo: FileRoutesByTo
@@ -274,6 +284,7 @@ export interface FileRouteTypes {
     | '/recipes'
     | '/register'
     | '/repousse'
+    | '/resultats'
     | '/shop'
     | '/wishlist'
   id:
@@ -299,6 +310,7 @@ export interface FileRouteTypes {
     | '/recipes'
     | '/register'
     | '/repousse'
+    | '/resultats'
     | '/shop'
     | '/wishlist'
   fileRoutesById: FileRoutesById
@@ -325,6 +337,7 @@ export interface RootRouteChildren {
   RecipesRoute: typeof RecipesRoute
   RegisterRoute: typeof RegisterRoute
   RepousseRoute: typeof RepousseRoute
+  ResultatsRoute: typeof ResultatsRoute
   ShopRoute: typeof ShopRoute
   WishlistRoute: typeof WishlistRoute
 }
@@ -343,6 +356,13 @@ declare module '@tanstack/react-router' {
       path: '/shop'
       fullPath: '/shop'
       preLoaderRoute: typeof ShopRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/resultats': {
+      id: '/resultats'
+      path: '/resultats'
+      fullPath: '/resultats'
+      preLoaderRoute: typeof ResultatsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/repousse': {
@@ -517,19 +537,10 @@ const rootRouteChildren: RootRouteChildren = {
   RecipesRoute: RecipesRoute,
   RegisterRoute: RegisterRoute,
   RepousseRoute: RepousseRoute,
+  ResultatsRoute: ResultatsRoute,
   ShopRoute: ShopRoute,
   WishlistRoute: WishlistRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

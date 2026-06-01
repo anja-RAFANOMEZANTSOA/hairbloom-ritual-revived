@@ -39,11 +39,12 @@ function Photo() {
         setResult(r.result);
         if (r.result?.hairType) saveProfile({ hairType: r.result.hairType, texture: r.result.texture, porosity: r.result.porosity });
         addHistory("photo", `Type ${r.result?.hairType ?? "—"} · ${r.result?.condition ?? ""}`.trim(), r.result);
+        try { localStorage.setItem("hairbloom_last_analysis", JSON.stringify(r.result)); } catch {}
         toast.success("Analyse terminée");
         if (initial === "1") {
           markInitialAnalysisDone();
-          setTimeout(() => navigate({ to: "/", replace: true }), 1500);
         }
+        setTimeout(() => navigate({ to: "/resultats", replace: true }), 900);
       }
     } catch (e: any) {
       toast.error(e.message || "Erreur");
