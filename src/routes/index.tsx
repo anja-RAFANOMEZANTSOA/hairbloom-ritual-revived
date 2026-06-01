@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import { Camera, HelpCircle, Leaf, ShoppingBag, Sparkles, CloudSun, FlaskConical } from "lucide-react";
+import { Camera, HelpCircle, Sprout, ShoppingBag, Sparkles, CloudRain, Stethoscope, Trophy } from "lucide-react";
 import { useProfile } from "@/lib/storage";
 import { unsplash, dailyTips, hairTypePhotos } from "@/lib/hair-data";
 import { Logo } from "@/components/Logo";
@@ -53,8 +53,15 @@ function Index() {
           onClick={redoAnalysis}
           className="w-full md:w-auto px-5 py-3 rounded-2xl bg-primary/10 border border-primary/30 text-primary font-medium text-sm hover:bg-primary/20 transition-colors flex items-center justify-center gap-2"
         >
-          🔄 Refaire mon analyse
+          <Sparkles className="size-4" /> Refaire mon analyse
         </button>
+        <Link
+          to="/resultats"
+          search={{ tab: "defi" }}
+          className="w-full md:w-auto px-5 py-3 rounded-2xl bg-primary text-primary-foreground font-medium text-sm flex items-center justify-center gap-2 shadow-md hover:opacity-95 transition-opacity"
+        >
+          <Trophy className="size-4" /> Rejoindre le défi 21 jours
+        </Link>
         {/* Daily tip */}
         <motion.div
           key={tipIdx}
@@ -135,18 +142,18 @@ function Index() {
 
         {/* Quick access */}
         <div>
-          <h2 className="font-display text-xl mb-3">⚡ Accès rapide</h2>
+          <h2 className="font-display text-xl mb-3">Accès rapide</h2>
           <div className="grid grid-cols-3 gap-3">
             {[
-              { to: "/photo", label: "Photo IA", emoji: "📸" },
-              { to: "/diagnostic", label: "Diagnostic", emoji: "💆" },
-              { to: "/recipes", label: "Recettes", emoji: "🌿" },
-              { to: "/shop", label: "Shop", emoji: "🛍️" },
-              { to: "/aura", label: "Aura", emoji: "✨" },
-              { to: "/meteo", label: "Météo", emoji: "🌦️" },
-            ].map(({ to, label, emoji }) => (
+              { to: "/photo", label: "Photo IA", Icon: Camera },
+              { to: "/diagnostic", label: "Diagnostic", Icon: Stethoscope },
+              { to: "/recipes", label: "Recettes", Icon: Sprout },
+              { to: "/shop", label: "Boutique", Icon: ShoppingBag },
+              { to: "/aura", label: "Aura", Icon: Sparkles },
+              { to: "/meteo", label: "Météo", Icon: CloudRain },
+            ].map(({ to, label, Icon }) => (
               <Link key={to} to={to} className="bg-card border border-border rounded-2xl p-4 flex flex-col items-center gap-2 hover:border-primary transition-colors">
-                <span className="text-2xl" aria-hidden>{emoji}</span>
+                <Icon className="size-6 text-primary" strokeWidth={1.75} />
                 <span className="text-xs font-medium text-center">{label}</span>
               </Link>
             ))}

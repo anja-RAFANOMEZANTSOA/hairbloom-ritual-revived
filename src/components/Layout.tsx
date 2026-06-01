@@ -2,9 +2,9 @@ import { ReactNode, useEffect } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Home, Camera, Sparkles, ShoppingBag, User, HelpCircle, FlaskConical,
-  Leaf, Images, CloudSun, Ruler, ScanSearch, CalendarDays, BookOpen, History,
-  ShoppingCart, Heart, NotebookPen, Users,
+  Home, Camera, Sparkles, ShoppingBag, UserCircle2, HelpCircle, Stethoscope,
+  Sprout, Images, CloudRain, Ruler, ScanLine, CalendarCheck, BookOpen, History,
+  ShoppingCart, Heart, Notebook, Users, Droplet,
 } from "lucide-react";
 import { Logo } from "./Logo";
 import { NotificationBell } from "./NotificationBell";
@@ -15,33 +15,33 @@ import { LANGS, useLang } from "@/lib/i18n";
 import { useProfile } from "@/lib/storage";
 
 const allLinks = [
-  { to: "/", label: "Accueil", emoji: "🏠", icon: Home },
-  { to: "/photo", label: "Photo IA", emoji: "📸", icon: Camera },
-  { to: "/quiz", label: "Quiz", emoji: "❓", icon: HelpCircle },
-  { to: "/diagnostic", label: "Diagnostic", emoji: "💆", icon: FlaskConical },
-  { to: "/recipes", label: "Recettes", emoji: "🌿", icon: Leaf },
-  { to: "/shop", label: "Shop", emoji: "🛍️", icon: ShoppingBag },
-  { to: "/panier", label: "Panier", emoji: "🛒", icon: ShoppingCart },
-  { to: "/wishlist", label: "Favoris", emoji: "❤️", icon: Heart },
-  { to: "/journal", label: "Journal", emoji: "📔", icon: NotebookPen },
-  { to: "/communaute", label: "Communauté", emoji: "🤝", icon: Users },
-  { to: "/avant-apres", label: "Avant / Après", emoji: "🖼️", icon: Images },
-  { to: "/meteo", label: "Météo", emoji: "🌦️", icon: CloudSun },
-  { to: "/repousse", label: "Repousse", emoji: "📏", icon: Ruler },
-  { to: "/inci", label: "Scanner INCI", emoji: "🔬", icon: ScanSearch },
-  { to: "/aura", label: "Mon Aura", emoji: "✨", icon: Sparkles },
-  { to: "/plan", label: "Plan 30 jours", emoji: "📅", icon: CalendarDays },
-  { to: "/conseils", label: "Conseils", emoji: "💡", icon: BookOpen },
-  { to: "/historique", label: "Historique", emoji: "📖", icon: History },
-  { to: "/profil", label: "Profil", emoji: "👤", icon: User },
+  { to: "/", label: "Accueil", icon: Home },
+  { to: "/photo", label: "Photo IA", icon: Camera },
+  { to: "/quiz", label: "Quiz", icon: HelpCircle },
+  { to: "/diagnostic", label: "Diagnostic", icon: Stethoscope },
+  { to: "/recipes", label: "Recettes", icon: Sprout },
+  { to: "/shop", label: "Boutique", icon: ShoppingBag },
+  { to: "/panier", label: "Panier", icon: ShoppingCart },
+  { to: "/wishlist", label: "Favoris", icon: Heart },
+  { to: "/journal", label: "Journal", icon: Notebook },
+  { to: "/communaute", label: "Communauté", icon: Users },
+  { to: "/avant-apres", label: "Avant / Après", icon: Images },
+  { to: "/meteo", label: "Météo", icon: CloudRain },
+  { to: "/repousse", label: "Repousse", icon: Ruler },
+  { to: "/inci", label: "Scanner INCI", icon: ScanLine },
+  { to: "/aura", label: "Mon Aura", icon: Sparkles },
+  { to: "/plan", label: "Plan 30 jours", icon: CalendarCheck },
+  { to: "/conseils", label: "Conseils", icon: BookOpen },
+  { to: "/historique", label: "Historique", icon: History },
+  { to: "/profil", label: "Profil", icon: UserCircle2 },
 ] as const;
 
 const bottomNav = [
-  { to: "/", label: "Accueil", emoji: "🏠", icon: Home },
-  { to: "/photo", label: "Photo IA", emoji: "📸", icon: Camera },
-  { to: "/recipes", label: "Recettes", emoji: "🌿", icon: Leaf },
-  { to: "/shop", label: "Shop", emoji: "🛍️", icon: ShoppingBag },
-  { to: "/profil", label: "Profil", emoji: "👤", icon: User },
+  { to: "/", label: "Accueil", icon: Home },
+  { to: "/photo", label: "Photo IA", icon: Camera },
+  { to: "/recipes", label: "Recettes", icon: Sprout },
+  { to: "/shop", label: "Boutique", icon: ShoppingBag },
+  { to: "/profil", label: "Profil", icon: UserCircle2 },
 ] as const;
 
 export function Layout({ children }: { children: ReactNode }) {
@@ -77,6 +77,7 @@ export function Layout({ children }: { children: ReactNode }) {
         <nav className="flex-1 overflow-y-auto p-3">
           {allLinks.map((l) => {
             const active = pathname === l.to;
+            const Icon = l.icon;
             return (
               <Link
                 key={l.to}
@@ -85,7 +86,7 @@ export function Layout({ children }: { children: ReactNode }) {
                   active ? "bg-primary text-primary-foreground shadow-md" : "text-foreground hover:bg-white/50"
                 }`}
               >
-                <span className="text-base leading-none w-5 text-center" aria-hidden>{l.emoji}</span>
+                <Icon className="size-5 shrink-0" strokeWidth={1.75} />
                 <span>{l.label}</span>
               </Link>
             );
@@ -132,6 +133,7 @@ export function Layout({ children }: { children: ReactNode }) {
         <div className="grid grid-cols-5">
           {bottomNav.map((l) => {
             const active = pathname === l.to;
+            const Icon = l.icon;
             return (
               <Link
                 key={l.to}
@@ -140,7 +142,9 @@ export function Layout({ children }: { children: ReactNode }) {
                   active ? "text-primary" : "text-muted-foreground"
                 }`}
               >
-                <span className={`text-lg leading-none px-3 py-1 rounded-full transition-all ${active ? "bg-primary/15" : ""}`} aria-hidden>{l.emoji}</span>
+                <span className={`grid place-items-center px-3 py-1 rounded-full transition-all ${active ? "bg-primary/15" : ""}`}>
+                  <Icon className="size-5" strokeWidth={1.75} />
+                </span>
                 <span>{l.label}</span>
               </Link>
             );
