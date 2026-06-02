@@ -1,11 +1,13 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { Sparkles, RotateCcw, LogOut, History as HistoryIcon, ChevronRight } from "lucide-react";
+import { Sparkles, RotateCcw, LogOut, History as HistoryIcon, ChevronRight, Trophy, Moon, Sun, ChevronRight as ChevR } from "lucide-react";
 import { useProfile, useLocalStorage } from "@/lib/storage";
 import { auras, recipes } from "@/lib/hair-data";
 import { toast } from "sonner";
 import { logout, useAuth } from "@/lib/auth";
 import { usePrefs, type NotifPrefs } from "@/lib/notifications";
 import { resetInitialAnalysis } from "@/lib/initial-analysis";
+import { useTheme } from "@/lib/theme";
+import { useBadges } from "@/lib/badges";
 
 export const Route = createFileRoute("/profil")({ component: Profil });
 
@@ -28,6 +30,8 @@ function Profil() {
   const [favs] = useLocalStorage<number[]>("hairbloom_fav_recipes", []);
   const [lang, setLang] = useLocalStorage<string>("hairbloom_lang", "Français");
   const [prefs, togglePref] = usePrefs();
+  const [theme, , toggleTheme] = useTheme();
+  const { unlocked, total, all } = useBadges();
   const aura = profile.hairType ? auras[profile.hairType] : null;
 
   const reset = () => {
@@ -105,6 +109,51 @@ function Profil() {
         <HistoryIcon className="size-4 text-muted-foreground" />
         <ChevronRight className="size-4 text-muted-foreground" />
       </Link>
+
+      <Link to="/badges" className="block bg-card border border-border rounded-2xl p-4 hover:border-primary transition-colors">
+        <div className="flex items-center gap-3 mb-3">
+          <div className="size-10 rounded-full bg-primary/15 grid place-items-center text-primary">
+            <Trophy className="size-5" />
+          </div>
+          <div className="flex-1">
+            <div className="font-medium text-sm">Mes Trophées 🏅</div>
+            <div className="text-xs text-muted-foreground">{unlocked.length} / {total} débloqués</div>
+          </div>
+          <ChevR className="size-4 text-muted-foreground" />
+        </div>
+        <div className="h-1.5 rounded-full bg-secondary overflow-hidden">
+          <div className="h-full bg-primary transition-all" style={{ width: `${Math.round((unlocked.length / total) * 100)}%` }} />
+        </div>
+        {unlocked.length > 0 && (
+          <div className="flex gap-1.5 mt-3 overflow-x-auto">
+            {all.filter((b) => b.unlocked).slice(0, 8).map((b) => (
+              <span key={b.def.id} title={b.def.name} className="size-9 shrink-0 rounded-full grid place-items-center text-base"
+                style={{ background: `${b.def.color}22`, border: `1px solid ${b.def.color}55` }}>
+                {b.def.emoji}
+              </span>
+            ))}
+          </div>
+        )}
+      </Link>
+
+      <div className="bg-card border border-border rounded-2xl p-4 flex items-center gap-3">
+        <div className="size-10 rounded-full bg-secondary grid place-items-center">
+          {theme === "dark" ? <Moon className="size-5 text-primary" /> : <Sun className="size-5 text-primary" />}
+        </div>
+        <div className="flex-1">
+          <div className="font-medium text-sm">Mode {theme === "dark" ? "sombre" : "clair"}</div>
+          <div className="text-xs text-muted-foreground">Rituel doré le jour, rose profond la nuit</div>
+        </div>
+        <button
+          type="button"
+          onClick={toggleTheme}
+          className={`relative w-12 h-7 rounded-full transition-colors ${theme === "dark" ? "bg-primary" : "bg-border"}`}
+          aria-pressed={theme === "dark"}
+          aria-label="Basculer le mode sombre"
+        >
+          <span className={`absolute top-0.5 size-6 rounded-full bg-white shadow transition-transform ${theme === "dark" ? "translate-x-[22px]" : "translate-x-0.5"}`} />
+        </button>
+      </div>
 
       <div>
         <h3 className="font-medium mb-2">💖 Mes recettes favorites ({favs.length})</h3>
