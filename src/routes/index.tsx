@@ -7,6 +7,8 @@ import { unsplash, dailyTips, hairTypePhotos } from "@/lib/hair-data";
 import { Logo } from "@/components/Logo";
 import { useEffect, useState } from "react";
 import { resetInitialAnalysis } from "@/lib/initial-analysis";
+import { useBadges } from "@/lib/badges";
+import { Trophy } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -15,6 +17,7 @@ export const Route = createFileRoute("/")({
 function Index() {
   const [profile] = useProfile();
   const navigate = useNavigate();
+  const { next, unlocked, total } = useBadges();
   const redoAnalysis = () => {
     resetInitialAnalysis();
     navigate({ to: "/analyse-initiale" });
