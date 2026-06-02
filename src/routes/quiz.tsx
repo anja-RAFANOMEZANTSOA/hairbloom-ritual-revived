@@ -47,6 +47,7 @@ function Quiz() {
       saveProfile({ hairType, texture: next[2], porosity, problem: next[10], goal: next[10] });
       addHistory("quiz", `Type ${hairType} · porosité ${porosity}`, { hairType, porosity, texture: next[2], goal: next[10], answers: next });
       try { localStorage.setItem("hairbloom_last_analysis", JSON.stringify({ hairType, porosity, texture: next[2], mainProblems: [next[10]] })); } catch {}
+      try { localStorage.setItem("hairbloom_quiz_done", "1"); window.dispatchEvent(new Event("hairbloom:badges-tick")); } catch {}
       setDone(true);
       toast.success("Profil enregistré");
       if (initial === "1") {

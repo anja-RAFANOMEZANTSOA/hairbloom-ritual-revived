@@ -7,6 +7,7 @@ import { unsplash, dailyTips, hairTypePhotos } from "@/lib/hair-data";
 import { Logo } from "@/components/Logo";
 import { useEffect, useState } from "react";
 import { resetInitialAnalysis } from "@/lib/initial-analysis";
+import { useBadges } from "@/lib/badges";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -15,6 +16,7 @@ export const Route = createFileRoute("/")({
 function Index() {
   const [profile] = useProfile();
   const navigate = useNavigate();
+  const { next, unlocked, total } = useBadges();
   const redoAnalysis = () => {
     resetInitialAnalysis();
     navigate({ to: "/analyse-initiale" });
@@ -49,6 +51,29 @@ function Index() {
       </section>
 
       <div className="p-4 md:p-6 space-y-6">
+        {next && (
+          <Link
+            to="/badges"
+            className="flex items-center gap-3 rounded-2xl px-4 py-3 border"
+            style={{
+              background: `linear-gradient(135deg, ${next.def.color}1a, ${next.def.color}0a)`,
+              borderColor: `${next.def.color}55`,
+            }}
+          >
+            <span className="size-10 rounded-full grid place-items-center text-xl shrink-0"
+              style={{ background: `${next.def.color}33`, border: `1px solid ${next.def.color}66` }}>
+              {next.def.emoji}
+            </span>
+            <div className="flex-1 min-w-0">
+              <div className="text-[11px] uppercase tracking-wider text-muted-foreground">Prochain trophée</div>
+              <div className="text-sm font-medium truncate">{next.def.name}</div>
+              <div className="text-xs text-muted-foreground">
+                Encore {Math.max(0, next.target - next.current)} {next.target - next.current === 1 ? "étape" : "étapes"} — {unlocked.length}/{total} débloqués
+              </div>
+            </div>
+            <Trophy className="size-4 text-primary shrink-0" />
+          </Link>
+        )}
         <button
           onClick={redoAnalysis}
           className="w-full md:w-auto px-5 py-3 rounded-2xl bg-primary/10 border border-primary/30 text-primary font-medium text-sm hover:bg-primary/20 transition-colors flex items-center justify-center gap-2"

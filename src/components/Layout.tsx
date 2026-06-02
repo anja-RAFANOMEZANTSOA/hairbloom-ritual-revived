@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Home, Camera, Sparkles, ShoppingBag, UserCircle2, HelpCircle, Stethoscope,
   Sprout, Images, CloudRain, Ruler, ScanLine, CalendarCheck, BookOpen, History,
-  ShoppingCart, Heart, Notebook, Users, Droplet,
+  ShoppingCart, Heart, Notebook, Users, Droplet, Trophy, Moon, Sun,
 } from "lucide-react";
 import { Logo } from "./Logo";
 import { NotificationBell } from "./NotificationBell";
@@ -13,6 +13,10 @@ import { ensureScheduled } from "@/lib/notifications";
 import { useCart } from "@/lib/cart";
 import { LANGS, useLang } from "@/lib/i18n";
 import { useProfile } from "@/lib/storage";
+import { useTheme } from "@/lib/theme";
+import { trackVisit, useBadges } from "@/lib/badges";
+import { HeaderTimerBadge, RecipeTimerOverlay } from "./RecipeTimer";
+import { BadgeCelebration } from "./BadgeCelebration";
 
 const allLinks = [
   { to: "/", label: "Accueil", icon: Home },
@@ -33,6 +37,7 @@ const allLinks = [
   { to: "/plan", label: "Plan 30 jours", icon: CalendarCheck },
   { to: "/conseils", label: "Conseils", icon: BookOpen },
   { to: "/historique", label: "Historique", icon: History },
+  { to: "/badges", label: "Trophées", icon: Trophy },
   { to: "/profil", label: "Profil", icon: UserCircle2 },
 ] as const;
 
@@ -50,8 +55,12 @@ export function Layout({ children }: { children: ReactNode }) {
   const cartCount = cart.reduce((s, x) => s + x.qty, 0);
   const [lang, setLang] = useLang();
   const [profile] = useProfile();
+  const [theme, , toggleTheme] = useTheme();
+  // Subscribe so newly-unlocked badges fire celebrations app-wide.
+  useBadges();
 
   useEffect(() => { ensureScheduled(); }, []);
+  useEffect(() => { trackVisit(pathname); }, [pathname]);
 
   const titleFor = allLinks.find((l) => l.to === pathname)?.label ?? "HairBloom";
   const initials = (profile.name || "U").slice(0, 1).toUpperCase();
@@ -103,6 +112,14 @@ export function Layout({ children }: { children: ReactNode }) {
           </div>
           <div className="hidden lg:block font-display text-lg">{titleFor}</div>
           <div className="flex items-center gap-1">
+            <HeaderTimerBadge />
+            <button
+              onClick={toggleTheme}
+              aria-label={theme === "dark" ? "Mode clair" : "Mode sombre"}
+              className="p-2 rounded-full hover:bg-secondary transition-colors"
+            >
+              {theme === "dark" ? <Sun className="size-5" /> : <Moon className="size-5" />}
+            </button>
             <select value={lang} onChange={(e) => setLang(e.target.value as never)} className="bg-transparent text-base outline-none cursor-pointer pr-1" aria-label="Langue">
               {LANGS.map((l) => <option key={l.code} value={l.code}>{l.flag}</option>)}
             </select>
@@ -152,6 +169,8 @@ export function Layout({ children }: { children: ReactNode }) {
         </div>
       </nav>
       <AIChat />
+      <RecipeTimerOverlay />
+      <BadgeCelebration />
     </div>
   );
 }

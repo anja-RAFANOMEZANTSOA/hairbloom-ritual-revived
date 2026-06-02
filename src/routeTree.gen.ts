@@ -29,6 +29,7 @@ import { Route as HistoriqueRouteImport } from './routes/historique'
 import { Route as DiagnosticRouteImport } from './routes/diagnostic'
 import { Route as ConseilsRouteImport } from './routes/conseils'
 import { Route as CommunauteRouteImport } from './routes/communaute'
+import { Route as BadgesRouteImport } from './routes/badges'
 import { Route as AvantApresRouteImport } from './routes/avant-apres'
 import { Route as AuraRouteImport } from './routes/aura'
 import { Route as AnalyseInitialeRouteImport } from './routes/analyse-initiale'
@@ -134,6 +135,11 @@ const CommunauteRoute = CommunauteRouteImport.update({
   path: '/communaute',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BadgesRoute = BadgesRouteImport.update({
+  id: '/badges',
+  path: '/badges',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AvantApresRoute = AvantApresRouteImport.update({
   id: '/avant-apres',
   path: '/avant-apres',
@@ -160,6 +166,7 @@ export interface FileRoutesByFullPath {
   '/analyse-initiale': typeof AnalyseInitialeRoute
   '/aura': typeof AuraRoute
   '/avant-apres': typeof AvantApresRoute
+  '/badges': typeof BadgesRoute
   '/communaute': typeof CommunauteRoute
   '/conseils': typeof ConseilsRoute
   '/diagnostic': typeof DiagnosticRoute
@@ -186,6 +193,7 @@ export interface FileRoutesByTo {
   '/analyse-initiale': typeof AnalyseInitialeRoute
   '/aura': typeof AuraRoute
   '/avant-apres': typeof AvantApresRoute
+  '/badges': typeof BadgesRoute
   '/communaute': typeof CommunauteRoute
   '/conseils': typeof ConseilsRoute
   '/diagnostic': typeof DiagnosticRoute
@@ -213,6 +221,7 @@ export interface FileRoutesById {
   '/analyse-initiale': typeof AnalyseInitialeRoute
   '/aura': typeof AuraRoute
   '/avant-apres': typeof AvantApresRoute
+  '/badges': typeof BadgesRoute
   '/communaute': typeof CommunauteRoute
   '/conseils': typeof ConseilsRoute
   '/diagnostic': typeof DiagnosticRoute
@@ -241,6 +250,7 @@ export interface FileRouteTypes {
     | '/analyse-initiale'
     | '/aura'
     | '/avant-apres'
+    | '/badges'
     | '/communaute'
     | '/conseils'
     | '/diagnostic'
@@ -267,6 +277,7 @@ export interface FileRouteTypes {
     | '/analyse-initiale'
     | '/aura'
     | '/avant-apres'
+    | '/badges'
     | '/communaute'
     | '/conseils'
     | '/diagnostic'
@@ -293,6 +304,7 @@ export interface FileRouteTypes {
     | '/analyse-initiale'
     | '/aura'
     | '/avant-apres'
+    | '/badges'
     | '/communaute'
     | '/conseils'
     | '/diagnostic'
@@ -320,6 +332,7 @@ export interface RootRouteChildren {
   AnalyseInitialeRoute: typeof AnalyseInitialeRoute
   AuraRoute: typeof AuraRoute
   AvantApresRoute: typeof AvantApresRoute
+  BadgesRoute: typeof BadgesRoute
   CommunauteRoute: typeof CommunauteRoute
   ConseilsRoute: typeof ConseilsRoute
   DiagnosticRoute: typeof DiagnosticRoute
@@ -484,6 +497,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CommunauteRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/badges': {
+      id: '/badges'
+      path: '/badges'
+      fullPath: '/badges'
+      preLoaderRoute: typeof BadgesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/avant-apres': {
       id: '/avant-apres'
       path: '/avant-apres'
@@ -520,6 +540,7 @@ const rootRouteChildren: RootRouteChildren = {
   AnalyseInitialeRoute: AnalyseInitialeRoute,
   AuraRoute: AuraRoute,
   AvantApresRoute: AvantApresRoute,
+  BadgesRoute: BadgesRoute,
   CommunauteRoute: CommunauteRoute,
   ConseilsRoute: ConseilsRoute,
   DiagnosticRoute: DiagnosticRoute,

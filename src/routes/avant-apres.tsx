@@ -3,6 +3,7 @@ import { useRef, useState } from "react";
 import { Upload, Share2 } from "lucide-react";
 import { useLocalStorage } from "@/lib/storage";
 import { toast } from "sonner";
+import { markBeforeAfterShared } from "@/lib/badges";
 
 export const Route = createFileRoute("/avant-apres")({ component: AvantApres });
 
@@ -35,6 +36,7 @@ function AvantApres() {
     if (!before || !after) return toast.error("Ajoutez les deux photos");
     setGallery([{ before, after, dateBefore: dateB, dateAfter: dateA, notes }, ...gallery]);
     toast.success("Transformation sauvegardée");
+    markBeforeAfterShared();
     setBefore(null); setAfter(null); setNotes("");
   };
 
