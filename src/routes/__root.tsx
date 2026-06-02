@@ -16,6 +16,7 @@ import { useAuth, PUBLIC_ROUTES } from "@/lib/auth";
 import { useEffect, useState } from "react";
 import { useRouterState, useNavigate } from "@tanstack/react-router";
 import { isInitialAnalysisDone } from "@/lib/initial-analysis";
+import { applyTheme, getTheme } from "@/lib/theme";
 
 function NotFoundComponent() {
   return (
@@ -133,6 +134,8 @@ function RootShell({ children }: { children: React.ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  // Apply theme as early as possible to avoid flash
+  useEffect(() => { applyTheme(getTheme()); }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
