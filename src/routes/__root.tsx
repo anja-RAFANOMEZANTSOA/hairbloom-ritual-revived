@@ -185,6 +185,14 @@ function AuthGate() {
   if (isPublic) return <Outlet />;
   if (!isAuthenticated) return null;
 
+  // Authenticated but analysis not done — only allow the analysis flow screens.
+  if (!analysisDone && !ANALYSIS_ALLOWED.includes(pathname)) return null;
+
+  // Analysis screen renders full-screen on its own (no Layout chrome).
+  if (!analysisDone && pathname === "/analyse-initiale") {
+    return <Outlet />;
+  }
+
   return (
     <>
       <Layout>
