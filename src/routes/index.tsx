@@ -8,7 +8,6 @@ import { Logo } from "@/components/Logo";
 import { useEffect, useState } from "react";
 import { resetInitialAnalysis } from "@/lib/initial-analysis";
 import { useBadges } from "@/lib/badges";
-import { Trophy } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   component: Index,
