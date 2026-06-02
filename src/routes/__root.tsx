@@ -13,7 +13,7 @@ import { Layout } from "@/components/Layout";
 import { Onboarding } from "@/components/Onboarding";
 import { Toaster } from "@/components/ui/sonner";
 import { useAuth, PUBLIC_ROUTES } from "@/lib/auth";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouterState, useNavigate } from "@tanstack/react-router";
 import { isInitialAnalysisDone } from "@/lib/initial-analysis";
 
@@ -134,21 +134,38 @@ function AuthGate() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const navigate = useNavigate();
   const isPublic = PUBLIC_ROUTES.includes(pathname);
-  const ANALYSIS_ALLOWED = ["/analyse-initiale", "/photo", "/quiz"];
+  const ANALYSIS_ALLOWED = ["/analyse-initiale", "/photo", "/quiz", "/resultats"];
+
+  const [analysisDone, setAnalysisDone] = useState<boolean>(() => isInitialAnalysisDone());
+  useEffect(() => {
+    const sync = () => setAnalysisDone(isInitialAnalysisDone());
+    sync();
+    window.addEventListener("hairbloom:initial-analysis", sync);
+    window.addEventListener("storage", sync);
+    return () => {
+      window.removeEventListener("hairbloom:initial-analysis", sync);
+      window.removeEventListener("storage", sync);
+    };
+  }, []);
 
   useEffect(() => {
     if (!ready) return;
-    if (!isAuthenticated && !isPublic) navigate({ to: "/login", replace: true });
-    if (isAuthenticated && isPublic) navigate({ to: "/", replace: true });
-    if (
-      isAuthenticated &&
-      !isPublic &&
-      !isInitialAnalysisDone() &&
-      !ANALYSIS_ALLOWED.includes(pathname)
-    ) {
-      navigate({ to: "/analyse-initiale", replace: true });
+    if (!isAuthenticated) {
+      if (!isPublic) navigate({ to: "/login", replace: true });
+      return;
     }
-  }, [ready, isAuthenticated, isPublic, pathname, navigate]);
+    // Authenticated
+    if (!analysisDone) {
+      if (!ANALYSIS_ALLOWED.includes(pathname)) {
+        navigate({ to: "/analyse-initiale", replace: true });
+      }
+      return;
+    }
+    // Authenticated + analysis done
+    if (isPublic || pathname === "/analyse-initiale") {
+      navigate({ to: "/", replace: true });
+    }
+  }, [ready, isAuthenticated, isPublic, pathname, navigate, analysisDone]);
 
   if (!ready) return null;
 
