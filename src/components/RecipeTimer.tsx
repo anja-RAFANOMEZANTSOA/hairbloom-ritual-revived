@@ -170,7 +170,7 @@ export function HeaderTimerBadge() {
     <motion.div
       initial={{ opacity: 0, y: -6 }}
       animate={{ opacity: 1, y: 0 }}
-      className="hidden xs:flex sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium"
+      className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium"
       style={{
         background: "linear-gradient(135deg, rgba(201,149,106,0.18), rgba(232,180,184,0.18))",
         border: "1px solid rgba(201,149,106,0.4)",
