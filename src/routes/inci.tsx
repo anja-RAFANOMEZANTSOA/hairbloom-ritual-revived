@@ -6,6 +6,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { scanINCI } from "@/lib/ai.functions";
 import { useProfile } from "@/lib/storage";
 import { toast } from "sonner";
+import { bumpInciScan } from "@/lib/badges";
 
 export const Route = createFileRoute("/inci")({ component: INCI });
 
@@ -22,7 +23,7 @@ function INCI() {
     try {
       const res = await scan({ data: { inci: text, hairType: profile.hairType } });
       if (res.error) toast.error(res.error);
-      else setR(res.result);
+      else { setR(res.result); bumpInciScan(); }
     } finally { setLoading(false); }
   };
 
