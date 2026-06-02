@@ -40,6 +40,7 @@ function Photo() {
         if (r.result?.hairType) saveProfile({ hairType: r.result.hairType, texture: r.result.texture, porosity: r.result.porosity });
         addHistory("photo", `Type ${r.result?.hairType ?? "—"} · ${r.result?.condition ?? ""}`.trim(), r.result);
         try { localStorage.setItem("hairbloom_last_analysis", JSON.stringify(r.result)); } catch {}
+        try { localStorage.setItem("hairbloom_photo_done", "1"); window.dispatchEvent(new Event("hairbloom:badges-tick")); } catch {}
         toast.success("Analyse terminée");
         if (initial === "1") {
           markInitialAnalysisDone();
