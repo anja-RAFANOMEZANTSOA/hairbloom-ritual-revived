@@ -158,6 +158,32 @@ function Profil() {
         </button>
       </div>
 
+      <StatsDashboard />
+
+      <div className="bg-card border border-border rounded-2xl p-4 space-y-3">
+        <h3 className="font-medium">🔠 Taille du texte</h3>
+        <div className="text-xs text-muted-foreground">Ajustez la lisibilité selon vos préférences.</div>
+        <div role="radiogroup" aria-label="Taille du texte" className="grid grid-cols-3 gap-2">
+          {(["small", "medium", "large"] as FontSize[]).map((s) => {
+            const active = fontSize === s;
+            const label = s === "small" ? "Petit" : s === "medium" ? "Moyen" : "Grand";
+            const sample = s === "small" ? "text-xs" : s === "medium" ? "text-sm" : "text-base";
+            return (
+              <button
+                key={s}
+                role="radio"
+                aria-checked={active}
+                onClick={() => setSize(s)}
+                className={`py-3 rounded-xl border transition-colors ${active ? "bg-primary text-primary-foreground border-primary" : "bg-secondary border-border hover:border-primary"}`}
+              >
+                <span className={`block font-display ${sample}`}>Aa</span>
+                <span className="text-[10px] mt-0.5 block">{label}</span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
       <div>
         <h3 className="font-medium mb-2">💖 Mes recettes favorites ({favs.length})</h3>
         {favs.length === 0 ? (
