@@ -8,6 +8,8 @@ import { usePrefs, type NotifPrefs } from "@/lib/notifications";
 import { resetInitialAnalysis } from "@/lib/initial-analysis";
 import { useTheme } from "@/lib/theme";
 import { useBadges } from "@/lib/badges";
+import { StatsDashboard } from "@/components/StatsDashboard";
+import { useFontSize, type FontSize } from "@/lib/font-size";
 
 export const Route = createFileRoute("/profil")({ component: Profil });
 
@@ -31,6 +33,7 @@ function Profil() {
   const [lang, setLang] = useLocalStorage<string>("hairbloom_lang", "Français");
   const [prefs, togglePref] = usePrefs();
   const [theme, , toggleTheme] = useTheme();
+  const [fontSize, setSize] = useFontSize();
   const { unlocked, total, all } = useBadges();
   const aura = profile.hairType ? auras[profile.hairType] : null;
 
