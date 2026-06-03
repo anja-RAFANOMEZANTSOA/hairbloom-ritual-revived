@@ -1,10 +1,11 @@
-import { ReactNode, useEffect } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Home, Camera, Sparkles, ShoppingBag, UserCircle2, HelpCircle, Stethoscope,
   Sprout, Images, CloudRain, Ruler, ScanLine, CalendarCheck, BookOpen, History,
   ShoppingCart, Heart, Notebook, Users, Droplet, Trophy, Moon, Sun,
+  Search as SearchIcon,
 } from "lucide-react";
 import { Logo } from "./Logo";
 import { NotificationBell } from "./NotificationBell";
@@ -17,6 +18,8 @@ import { useTheme } from "@/lib/theme";
 import { trackVisit, useBadges } from "@/lib/badges";
 import { HeaderTimerBadge, RecipeTimerOverlay } from "./RecipeTimer";
 import { BadgeCelebration } from "./BadgeCelebration";
+import { GlobalSearch } from "./GlobalSearch";
+import { useFontSize } from "@/lib/font-size";
 
 const allLinks = [
   { to: "/", label: "Accueil", icon: Home },
@@ -58,9 +61,22 @@ export function Layout({ children }: { children: ReactNode }) {
   const [theme, , toggleTheme] = useTheme();
   // Subscribe so newly-unlocked badges fire celebrations app-wide.
   useBadges();
+  useFontSize(); // applies stored font-size class to <html>
+  const [searchOpen, setSearchOpen] = useState(false);
 
   useEffect(() => { ensureScheduled(); }, []);
   useEffect(() => { trackVisit(pathname); }, [pathname]);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        setSearchOpen(true);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
 
   const titleFor = allLinks.find((l) => l.to === pathname)?.label ?? "HairBloom";
   const initials = (profile.name || "U").slice(0, 1).toUpperCase();
@@ -114,16 +130,23 @@ export function Layout({ children }: { children: ReactNode }) {
           <div className="flex items-center gap-1">
             <HeaderTimerBadge />
             <button
+              onClick={() => setSearchOpen(true)}
+              aria-label="Rechercher dans HairBloom"
+              className="p-2 rounded-full hover:bg-secondary transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
+            >
+              <SearchIcon className="size-5" />
+            </button>
+            <button
               onClick={toggleTheme}
               aria-label={theme === "dark" ? "Mode clair" : "Mode sombre"}
-              className="p-2 rounded-full hover:bg-secondary transition-colors"
+              className="p-2 rounded-full hover:bg-secondary transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
             >
               {theme === "dark" ? <Sun className="size-5" /> : <Moon className="size-5" />}
             </button>
             <select value={lang} onChange={(e) => setLang(e.target.value as never)} className="bg-transparent text-base outline-none cursor-pointer pr-1" aria-label="Langue">
               {LANGS.map((l) => <option key={l.code} value={l.code}>{l.flag}</option>)}
             </select>
-            <Link to="/panier" className="relative p-2 rounded-full hover:bg-secondary transition-colors">
+            <Link to="/panier" aria-label={`Panier${cartCount ? `, ${cartCount} article${cartCount > 1 ? "s" : ""}` : ""}`} className="relative p-2 rounded-full hover:bg-secondary transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none">
               <ShoppingCart className="size-5" />
               {cartCount > 0 && (
                 <motion.span key={cartCount} initial={{ scale: 0 }} animate={{ scale: [1.4, 1] }} className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] px-1 rounded-full bg-primary text-primary-foreground text-[10px] grid place-items-center font-medium">{cartCount}</motion.span>
@@ -171,6 +194,7 @@ export function Layout({ children }: { children: ReactNode }) {
       <AIChat />
       <RecipeTimerOverlay />
       <BadgeCelebration />
+      <GlobalSearch open={searchOpen} onClose={() => setSearchOpen(false)} />
     </div>
   );
 }

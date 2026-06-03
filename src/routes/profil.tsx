@@ -8,6 +8,8 @@ import { usePrefs, type NotifPrefs } from "@/lib/notifications";
 import { resetInitialAnalysis } from "@/lib/initial-analysis";
 import { useTheme } from "@/lib/theme";
 import { useBadges } from "@/lib/badges";
+import { StatsDashboard } from "@/components/StatsDashboard";
+import { useFontSize, type FontSize } from "@/lib/font-size";
 
 export const Route = createFileRoute("/profil")({ component: Profil });
 
@@ -31,6 +33,7 @@ function Profil() {
   const [lang, setLang] = useLocalStorage<string>("hairbloom_lang", "Français");
   const [prefs, togglePref] = usePrefs();
   const [theme, , toggleTheme] = useTheme();
+  const [fontSize, setSize] = useFontSize();
   const { unlocked, total, all } = useBadges();
   const aura = profile.hairType ? auras[profile.hairType] : null;
 
@@ -153,6 +156,32 @@ function Profil() {
         >
           <span className={`absolute top-0.5 size-6 rounded-full bg-white shadow transition-transform ${theme === "dark" ? "translate-x-[22px]" : "translate-x-0.5"}`} />
         </button>
+      </div>
+
+      <StatsDashboard />
+
+      <div className="bg-card border border-border rounded-2xl p-4 space-y-3">
+        <h3 className="font-medium">🔠 Taille du texte</h3>
+        <div className="text-xs text-muted-foreground">Ajustez la lisibilité selon vos préférences.</div>
+        <div role="radiogroup" aria-label="Taille du texte" className="grid grid-cols-3 gap-2">
+          {(["small", "medium", "large"] as FontSize[]).map((s) => {
+            const active = fontSize === s;
+            const label = s === "small" ? "Petit" : s === "medium" ? "Moyen" : "Grand";
+            const sample = s === "small" ? "text-xs" : s === "medium" ? "text-sm" : "text-base";
+            return (
+              <button
+                key={s}
+                role="radio"
+                aria-checked={active}
+                onClick={() => setSize(s)}
+                className={`py-3 rounded-xl border transition-colors ${active ? "bg-primary text-primary-foreground border-primary" : "bg-secondary border-border hover:border-primary"}`}
+              >
+                <span className={`block font-display ${sample}`}>Aa</span>
+                <span className="text-[10px] mt-0.5 block">{label}</span>
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       <div>
