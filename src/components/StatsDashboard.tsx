@@ -27,14 +27,16 @@ export function StatsDashboard() {
   const monthStart = new Date(now.getFullYear(), now.getMonth(), 1).getTime();
   const prevStart = new Date(now.getFullYear(), now.getMonth() - 1, 1).getTime();
 
-  const masksThisMonth = journal.filter((e) => new Date(e.date).getTime() >= monthStart && /masque/i.test(e.care || "")).length;
+  const isMaskEntry = (e: typeof journal[number]) =>
+    e.products.some((p) => /masque|mask/i.test(p)) || /masque|mask/i.test(e.notes || "");
+  const masksThisMonth = journal.filter((e) => new Date(e.date).getTime() >= monthStart && isMaskEntry(e)).length;
   const masksPrev = journal.filter((e) => {
     const t = new Date(e.date).getTime();
-    return t >= prevStart && t < monthStart && /masque/i.test(e.care || "");
+    return t >= prevStart && t < monthStart && isMaskEntry(e);
   }).length;
   const trend = masksThisMonth - masksPrev;
 
-  const myPosts = posts.filter((p) => p.author === "Vous" || p.author === user?.firstName);
+  const myPosts = posts.filter((p) => p.mine || p.user === "Vous" || (user?.firstName && p.user === user.firstName));
   const totalLikes = myPosts.reduce((s, p) => s + (p.likes || 0), 0);
 
   const inciScans = readInciCount();
@@ -64,7 +66,7 @@ export function StatsDashboard() {
     journal.forEach((e) => {
       const t = new Date(e.date).getTime();
       const weeksAgo = Math.floor((Date.now() - t) / (7 * 86400000));
-      if (weeksAgo >= 0 && weeksAgo < 8 && /masque/i.test(e.care || "")) buckets[7 - weeksAgo].v += 1;
+      if (weeksAgo >= 0 && weeksAgo < 8 && isMaskEntry(e)) buckets[7 - weeksAgo].v += 1;
     });
     return buckets;
   }, [journal]);
