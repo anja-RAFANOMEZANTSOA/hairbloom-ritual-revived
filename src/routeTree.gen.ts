@@ -31,7 +31,6 @@ import { Route as ConseilsRouteImport } from './routes/conseils'
 import { Route as CommunauteRouteImport } from './routes/communaute'
 import { Route as CalendrierRouteImport } from './routes/calendrier'
 import { Route as BadgesRouteImport } from './routes/badges'
-import { Route as CalendrierRouteImport } from './routes/calendrier'
 import { Route as AvantApresRouteImport } from './routes/avant-apres'
 import { Route as AuraRouteImport } from './routes/aura'
 import { Route as AnalyseInitialeRouteImport } from './routes/analyse-initiale'
@@ -145,11 +144,6 @@ const CalendrierRoute = CalendrierRouteImport.update({
 const BadgesRoute = BadgesRouteImport.update({
   id: '/badges',
   path: '/badges',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CalendrierRoute = CalendrierRouteImport.update({
-  id: '/calendrier',
-  path: '/calendrier',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AvantApresRoute = AvantApresRouteImport.update({

@@ -5,7 +5,7 @@ import {
   Home, Camera, Sparkles, ShoppingBag, UserCircle2, HelpCircle, Stethoscope,
   Sprout, Images, CloudRain, Ruler, ScanLine, CalendarCheck, BookOpen, History,
   ShoppingCart, Heart, Notebook, Users, Droplet, Trophy, Moon, Sun,
-  Search as SearchIcon,
+  Search as SearchIcon, CalendarDays,
 } from "lucide-react";
 import { Logo } from "./Logo";
 import { NotificationBell } from "./NotificationBell";
@@ -20,6 +20,7 @@ import { HeaderTimerBadge, RecipeTimerOverlay } from "./RecipeTimer";
 import { BadgeCelebration } from "./BadgeCelebration";
 import { GlobalSearch } from "./GlobalSearch";
 import { useFontSize } from "@/lib/font-size";
+import { OfflineBanner } from "./OfflineBanner";
 
 const allLinks = [
   { to: "/", label: "Accueil", icon: Home },
@@ -41,6 +42,7 @@ const allLinks = [
   { to: "/conseils", label: "Conseils", icon: BookOpen },
   { to: "/historique", label: "Historique", icon: History },
   { to: "/badges", label: "Trophées", icon: Trophy },
+  { to: "/calendrier", label: "Calendrier", icon: CalendarDays },
   { to: "/profil", label: "Profil", icon: UserCircle2 },
 ] as const;
 
@@ -195,6 +197,7 @@ export function Layout({ children }: { children: ReactNode }) {
       <RecipeTimerOverlay />
       <BadgeCelebration />
       <GlobalSearch open={searchOpen} onClose={() => setSearchOpen(false)} />
+      <OfflineBanner />
     </div>
   );
 }
