@@ -85,9 +85,10 @@ export function Layout({ children }: { children: ReactNode }) {
 
   return (
     <div className="min-h-screen flex w-full bg-background text-foreground">
+      <div className="top-strip" />
       {/* Desktop sidebar */}
-      <aside className="hidden lg:flex w-64 shrink-0 border-r border-border flex-col" style={{ background: "linear-gradient(180deg, #fdf9f6 0%, #f5e6d6 100%)" }}>
-        <Link to="/" className="flex items-center gap-3 p-6 border-b border-border">
+      <aside className="hidden lg:flex w-64 shrink-0 border-r border-border flex-col" style={{ background: "linear-gradient(180deg, #FDF9F6 0%, #FFF8F0 100%)" }}>
+        <Link to="/" className="logo-bloom flex items-center gap-3 p-6 border-b border-border">
           <Logo size={40} />
           <div>
             <div className="font-display text-xl font-semibold leading-none">HairBloom</div>
@@ -95,29 +96,19 @@ export function Layout({ children }: { children: ReactNode }) {
           </div>
         </Link>
         <Link to="/profil" className="flex items-center gap-3 px-4 py-3 mx-3 mt-3 rounded-2xl glass">
-          <div className="size-10 rounded-full bg-primary text-primary-foreground grid place-items-center font-display">{initials}</div>
-          <div className="min-w-0">
+          <div className="size-10 rounded-full bg-primary text-primary-foreground grid place-items-center font-display avatar-glow">{initials}</div>
+          <div className="min-w-0 flex-1">
             <div className="text-sm font-medium truncate">{profile.name || "Profil"}</div>
-            <div className="text-[10px] text-muted-foreground">Type {profile.hairType || "—"}</div>
+            <div className="flex items-center gap-1.5 mt-0.5 flex-wrap">
+              {profile.hairType && (
+                <span className="text-[9px] px-1.5 py-0.5 rounded bg-primary/15 text-primary font-medium">{profile.hairType}</span>
+              )}
+              <span className="text-[10px] text-muted-foreground truncate">{profile.hairType ? (require("@/lib/hair-data").auras[profile.hairType]?.name ?? "Aura") : "Définir profil"}</span>
+            </div>
           </div>
         </Link>
         <nav className="flex-1 overflow-y-auto p-3">
-          {allLinks.map((l) => {
-            const active = pathname === l.to;
-            const Icon = l.icon;
-            return (
-              <Link
-                key={l.to}
-                to={l.to}
-                className={`flex items-center gap-3 px-4 py-2.5 rounded-xl mb-1 text-sm transition-all relative ${
-                  active ? "bg-primary text-primary-foreground shadow-md" : "text-foreground hover:bg-white/50"
-                }`}
-              >
-                <Icon className="size-5 shrink-0" strokeWidth={1.75} />
-                <span>{l.label}</span>
-              </Link>
-            );
-          })}
+          <SidebarSections pathname={pathname} />
         </nav>
       </aside>
 
@@ -184,7 +175,7 @@ export function Layout({ children }: { children: ReactNode }) {
                   active ? "text-primary" : "text-muted-foreground"
                 }`}
               >
-                <span className={`grid place-items-center px-3 py-1 rounded-full transition-all ${active ? "bg-primary/15" : ""}`}>
+                <span className={`grid place-items-center px-4 py-1 rounded-full transition-all duration-300 ${active ? "bg-gradient-to-r from-[var(--caramel)] to-[var(--blush)] text-white shadow-md" : ""}`}>
                   <Icon className="size-5" strokeWidth={1.75} />
                 </span>
                 <span>{l.label}</span>
