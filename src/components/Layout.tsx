@@ -21,30 +21,85 @@ import { BadgeCelebration } from "./BadgeCelebration";
 import { GlobalSearch } from "./GlobalSearch";
 import { useFontSize } from "@/lib/font-size";
 import { OfflineBanner } from "./OfflineBanner";
+import { auras } from "@/lib/hair-data";
 
-const allLinks = [
-  { to: "/", label: "Accueil", icon: Home },
-  { to: "/photo", label: "Photo IA", icon: Camera },
-  { to: "/quiz", label: "Quiz", icon: HelpCircle },
-  { to: "/diagnostic", label: "Diagnostic", icon: Stethoscope },
-  { to: "/recipes", label: "Recettes", icon: Sprout },
-  { to: "/shop", label: "Boutique", icon: ShoppingBag },
-  { to: "/panier", label: "Panier", icon: ShoppingCart },
-  { to: "/wishlist", label: "Favoris", icon: Heart },
-  { to: "/journal", label: "Journal", icon: Notebook },
-  { to: "/communaute", label: "Communauté", icon: Users },
-  { to: "/avant-apres", label: "Avant / Après", icon: Images },
-  { to: "/meteo", label: "Météo", icon: CloudRain },
-  { to: "/repousse", label: "Repousse", icon: Ruler },
-  { to: "/inci", label: "Scanner INCI", icon: ScanLine },
-  { to: "/aura", label: "Mon Aura", icon: Sparkles },
-  { to: "/plan", label: "Plan 30 jours", icon: CalendarCheck },
-  { to: "/conseils", label: "Conseils", icon: BookOpen },
-  { to: "/historique", label: "Historique", icon: History },
-  { to: "/badges", label: "Trophées", icon: Trophy },
-  { to: "/calendrier", label: "Calendrier", icon: CalendarDays },
-  { to: "/profil", label: "Profil", icon: UserCircle2 },
-] as const;
+type NavItem = { to: string; label: string; icon: typeof Home; pro?: boolean };
+type NavSection = { title: string; items: NavItem[] };
+
+const sections: NavSection[] = [
+  { title: "Analyse", items: [
+    { to: "/photo", label: "Photo IA", icon: Camera, pro: true },
+    { to: "/quiz", label: "Quiz", icon: HelpCircle },
+    { to: "/diagnostic", label: "Diagnostic", icon: Stethoscope, pro: true },
+    { to: "/inci", label: "Scanner INCI", icon: ScanLine },
+    { to: "/aura", label: "Mon Aura", icon: Sparkles },
+  ]},
+  { title: "Soins", items: [
+    { to: "/recipes", label: "Recettes", icon: Sprout },
+    { to: "/shop", label: "Boutique", icon: ShoppingBag },
+    { to: "/panier", label: "Panier", icon: ShoppingCart },
+    { to: "/wishlist", label: "Favoris", icon: Heart },
+  ]},
+  { title: "Suivi", items: [
+    { to: "/journal", label: "Journal", icon: Notebook },
+    { to: "/calendrier", label: "Calendrier", icon: CalendarDays },
+    { to: "/plan", label: "Plan 30 jours", icon: CalendarCheck },
+    { to: "/repousse", label: "Repousse", icon: Ruler },
+    { to: "/avant-apres", label: "Avant / Après", icon: Images },
+    { to: "/meteo", label: "Météo", icon: CloudRain },
+    { to: "/historique", label: "Historique", icon: History },
+  ]},
+  { title: "Communauté", items: [
+    { to: "/communaute", label: "Communauté", icon: Users },
+    { to: "/conseils", label: "Conseils", icon: BookOpen },
+    { to: "/badges", label: "Trophées", icon: Trophy },
+  ]},
+  { title: "Compte", items: [
+    { to: "/profil", label: "Profil", icon: UserCircle2 },
+  ]},
+];
+
+const allLinks = [{ to: "/", label: "Accueil", icon: Home }, ...sections.flatMap((s) => s.items)] as const;
+
+function SidebarSections({ pathname }: { pathname: string }) {
+  return (
+    <>
+      <Link
+        to="/"
+        className={`flex items-center gap-3 px-4 py-2.5 rounded-xl mb-3 text-sm transition-all relative ${
+          pathname === "/" ? "bg-primary text-primary-foreground shadow-md" : "text-foreground hover:bg-white/60"
+        }`}
+      >
+        {pathname === "/" && <span className="absolute left-0 top-1.5 bottom-1.5 w-1 rounded-r bg-[var(--caramel)]" />}
+        <Home className="size-5 shrink-0" strokeWidth={1.75} />
+        <span>Accueil</span>
+      </Link>
+      {sections.map((sec) => (
+        <div key={sec.title} className="mb-3">
+          <div className="px-4 py-1 text-[10px] uppercase tracking-[0.18em] text-[var(--caramel)] font-semibold">{sec.title}</div>
+          {sec.items.map((l) => {
+            const active = pathname === l.to;
+            const Icon = l.icon;
+            return (
+              <Link
+                key={l.to}
+                to={l.to}
+                className={`flex items-center gap-3 px-4 py-2.5 rounded-xl mb-0.5 text-sm transition-all relative ${
+                  active ? "bg-primary text-primary-foreground shadow-md" : "text-foreground hover:bg-white/60"
+                }`}
+              >
+                {active && <span className="absolute left-0 top-1.5 bottom-1.5 w-1 rounded-r bg-[var(--caramel)]" />}
+                <Icon className="size-5 shrink-0" strokeWidth={1.75} />
+                <span className="flex-1">{l.label}</span>
+                {l.pro && <span className="pro-badge">Pro</span>}
+              </Link>
+            );
+          })}
+        </div>
+      ))}
+    </>
+  );
+}
 
 const bottomNav = [
   { to: "/", label: "Accueil", icon: Home },
@@ -85,9 +140,10 @@ export function Layout({ children }: { children: ReactNode }) {
 
   return (
     <div className="min-h-screen flex w-full bg-background text-foreground">
+      <div className="top-strip" />
       {/* Desktop sidebar */}
-      <aside className="hidden lg:flex w-64 shrink-0 border-r border-border flex-col" style={{ background: "linear-gradient(180deg, #fdf9f6 0%, #f5e6d6 100%)" }}>
-        <Link to="/" className="flex items-center gap-3 p-6 border-b border-border">
+      <aside className="hidden lg:flex w-64 shrink-0 border-r border-border flex-col" style={{ background: "linear-gradient(180deg, #FDF9F6 0%, #FFF8F0 100%)" }}>
+        <Link to="/" className="logo-bloom flex items-center gap-3 p-6 border-b border-border">
           <Logo size={40} />
           <div>
             <div className="font-display text-xl font-semibold leading-none">HairBloom</div>
@@ -95,29 +151,21 @@ export function Layout({ children }: { children: ReactNode }) {
           </div>
         </Link>
         <Link to="/profil" className="flex items-center gap-3 px-4 py-3 mx-3 mt-3 rounded-2xl glass">
-          <div className="size-10 rounded-full bg-primary text-primary-foreground grid place-items-center font-display">{initials}</div>
-          <div className="min-w-0">
+          <div className="size-10 rounded-full bg-primary text-primary-foreground grid place-items-center font-display avatar-glow">{initials}</div>
+          <div className="min-w-0 flex-1">
             <div className="text-sm font-medium truncate">{profile.name || "Profil"}</div>
-            <div className="text-[10px] text-muted-foreground">Type {profile.hairType || "—"}</div>
+            <div className="flex items-center gap-1.5 mt-0.5 flex-wrap">
+              {profile.hairType && (
+                <span className="text-[9px] px-1.5 py-0.5 rounded bg-primary/15 text-primary font-medium">{profile.hairType}</span>
+              )}
+              <span className="text-[10px] text-muted-foreground truncate">
+                {profile.hairType ? (auras[profile.hairType]?.name ?? "Aura") : "Définir profil"}
+              </span>
+            </div>
           </div>
         </Link>
         <nav className="flex-1 overflow-y-auto p-3">
-          {allLinks.map((l) => {
-            const active = pathname === l.to;
-            const Icon = l.icon;
-            return (
-              <Link
-                key={l.to}
-                to={l.to}
-                className={`flex items-center gap-3 px-4 py-2.5 rounded-xl mb-1 text-sm transition-all relative ${
-                  active ? "bg-primary text-primary-foreground shadow-md" : "text-foreground hover:bg-white/50"
-                }`}
-              >
-                <Icon className="size-5 shrink-0" strokeWidth={1.75} />
-                <span>{l.label}</span>
-              </Link>
-            );
-          })}
+          <SidebarSections pathname={pathname} />
         </nav>
       </aside>
 
@@ -184,7 +232,7 @@ export function Layout({ children }: { children: ReactNode }) {
                   active ? "text-primary" : "text-muted-foreground"
                 }`}
               >
-                <span className={`grid place-items-center px-3 py-1 rounded-full transition-all ${active ? "bg-primary/15" : ""}`}>
+                <span className={`grid place-items-center px-4 py-1 rounded-full transition-all duration-300 ${active ? "bg-gradient-to-r from-[var(--caramel)] to-[var(--blush)] text-white shadow-md" : ""}`}>
                   <Icon className="size-5" strokeWidth={1.75} />
                 </span>
                 <span>{l.label}</span>
