@@ -29,6 +29,7 @@ import { Route as HistoriqueRouteImport } from './routes/historique'
 import { Route as DiagnosticRouteImport } from './routes/diagnostic'
 import { Route as ConseilsRouteImport } from './routes/conseils'
 import { Route as CommunauteRouteImport } from './routes/communaute'
+import { Route as CalendrierRouteImport } from './routes/calendrier'
 import { Route as BadgesRouteImport } from './routes/badges'
 import { Route as AvantApresRouteImport } from './routes/avant-apres'
 import { Route as AuraRouteImport } from './routes/aura'
@@ -135,6 +136,11 @@ const CommunauteRoute = CommunauteRouteImport.update({
   path: '/communaute',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CalendrierRoute = CalendrierRouteImport.update({
+  id: '/calendrier',
+  path: '/calendrier',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BadgesRoute = BadgesRouteImport.update({
   id: '/badges',
   path: '/badges',
@@ -167,6 +173,7 @@ export interface FileRoutesByFullPath {
   '/aura': typeof AuraRoute
   '/avant-apres': typeof AvantApresRoute
   '/badges': typeof BadgesRoute
+  '/calendrier': typeof CalendrierRoute
   '/communaute': typeof CommunauteRoute
   '/conseils': typeof ConseilsRoute
   '/diagnostic': typeof DiagnosticRoute
@@ -194,6 +201,7 @@ export interface FileRoutesByTo {
   '/aura': typeof AuraRoute
   '/avant-apres': typeof AvantApresRoute
   '/badges': typeof BadgesRoute
+  '/calendrier': typeof CalendrierRoute
   '/communaute': typeof CommunauteRoute
   '/conseils': typeof ConseilsRoute
   '/diagnostic': typeof DiagnosticRoute
@@ -222,6 +230,7 @@ export interface FileRoutesById {
   '/aura': typeof AuraRoute
   '/avant-apres': typeof AvantApresRoute
   '/badges': typeof BadgesRoute
+  '/calendrier': typeof CalendrierRoute
   '/communaute': typeof CommunauteRoute
   '/conseils': typeof ConseilsRoute
   '/diagnostic': typeof DiagnosticRoute
@@ -251,6 +260,7 @@ export interface FileRouteTypes {
     | '/aura'
     | '/avant-apres'
     | '/badges'
+    | '/calendrier'
     | '/communaute'
     | '/conseils'
     | '/diagnostic'
@@ -278,6 +288,7 @@ export interface FileRouteTypes {
     | '/aura'
     | '/avant-apres'
     | '/badges'
+    | '/calendrier'
     | '/communaute'
     | '/conseils'
     | '/diagnostic'
@@ -305,6 +316,7 @@ export interface FileRouteTypes {
     | '/aura'
     | '/avant-apres'
     | '/badges'
+    | '/calendrier'
     | '/communaute'
     | '/conseils'
     | '/diagnostic'
@@ -333,6 +345,7 @@ export interface RootRouteChildren {
   AuraRoute: typeof AuraRoute
   AvantApresRoute: typeof AvantApresRoute
   BadgesRoute: typeof BadgesRoute
+  CalendrierRoute: typeof CalendrierRoute
   CommunauteRoute: typeof CommunauteRoute
   ConseilsRoute: typeof ConseilsRoute
   DiagnosticRoute: typeof DiagnosticRoute
@@ -497,6 +510,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CommunauteRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/calendrier': {
+      id: '/calendrier'
+      path: '/calendrier'
+      fullPath: '/calendrier'
+      preLoaderRoute: typeof CalendrierRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/badges': {
       id: '/badges'
       path: '/badges'
@@ -541,6 +561,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuraRoute: AuraRoute,
   AvantApresRoute: AvantApresRoute,
   BadgesRoute: BadgesRoute,
+  CalendrierRoute: CalendrierRoute,
   CommunauteRoute: CommunauteRoute,
   ConseilsRoute: ConseilsRoute,
   DiagnosticRoute: DiagnosticRoute,
@@ -565,13 +586,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
