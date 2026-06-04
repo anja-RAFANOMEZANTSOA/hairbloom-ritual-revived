@@ -1,5 +1,5 @@
 import { motion, useInView, type HTMLMotionProps } from "framer-motion";
-import { useRef, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 
 type Props = HTMLMotionProps<"div"> & { delay?: number; children: ReactNode };
 
@@ -22,38 +22,19 @@ export function Reveal({ delay = 0, children, ...rest }: Props) {
 export function CountUp({ to, duration = 1.2 }: { to: number; duration?: number }) {
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true });
-  return (
-    <motion.span ref={ref}>
-      {inView ? (
-        <motion.span
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.3 }}
-        >
-          <Counter to={to} duration={duration} />
-        </motion.span>
-      ) : (
-        "0"
-      )}
-    </motion.span>
-  );
-}
-
-function Counter({ to, duration }: { to: number; duration: number }) {
-  const ref = useRef<HTMLSpanElement>(null);
-  return (
-    <motion.span
-      ref={ref}
-      initial={{ opacity: 1 }}
-      onUpdate={(latest) => {
-        if (ref.current && typeof latest.opacity === "number") {
-          ref.current.textContent = String(Math.round((latest.opacity as number) * to));
-        }
-      }}
-      animate={{ opacity: 1 }}
-      transition={{ duration }}
-    >
-      {to}
-    </motion.span>
-  );
+  const [val, setVal] = useState(0);
+  useEffect(() => {
+    if (!inView) return;
+    let raf = 0;
+    const start = performance.now();
+    const tick = (now: number) => {
+      const t = Math.min(1, (now - start) / (duration * 1000));
+      const eased = 1 - Math.pow(1 - t, 3);
+      setVal(Math.round(eased * to));
+      if (t < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [inView, to, duration]);
+  return <span ref={ref}>{val}</span>;
 }
