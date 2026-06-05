@@ -4,18 +4,22 @@ import { ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
 import { Logo } from "./Logo";
 
 const PHOTOS = [
-  "photo-1560869713-7d0a29430803",
   "photo-1522337360788-8b13dee7a37e",
-  "photo-1594897030264-ab7d87efc473",
-  "photo-1492106087820-71f1a00d2b11",
-  "photo-1519699047748-de8e457a634e",
-  "photo-1614707267537-b85aaf00c4b7",
-  "photo-1585751119414-ef2636f8aede",
+  "photo-1571781926291-c477ebfd024b",
   "photo-1556228720-195a672e8a03",
+  "photo-1598440947619-2c35fc9aa908",
+  "photo-1585751119414-ef2636f8aede",
+  "photo-1608248597279-f99d160bfcbc",
+  "photo-1629198688000-71f23e745b6e",
+  "photo-1614707267537-b85aaf00c4b7",
+  "photo-1515377905703-c4788e51af15",
+  "photo-1559599101-f09722fb4948",
+  "photo-1596462502278-27bfdc403348",
+  "photo-1535585209827-a15fcdbc4c2d",
 ];
 
 const url = (id: string) =>
-  `https://images.unsplash.com/${id}?w=1600&q=80&fit=crop&auto=format`;
+  `https://images.unsplash.com/${id}?w=1600&q=90&fit=crop&auto=format`;
 
 export function HeroSlideshow({ name }: { name?: string }) {
   const [idx, setIdx] = useState(0);
