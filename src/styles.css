@@ -168,6 +168,50 @@ img, video, svg * { transition: none !important; }
   box-shadow: 0 0 0 0.5px rgba(201, 149, 106, 0.3);
 }
 
+/* ===== Dark mode header & sidebar explicit overrides ===== */
+.dark header.glass {
+  background: #1E1320 !important;
+  border-bottom: 0.5px solid #3D2535 !important;
+  box-shadow: 0 1px 0 rgba(201, 149, 106, 0.2);
+  color: #F5E6DA;
+}
+.dark header.glass button,
+.dark header.glass a,
+.dark header.glass select,
+.dark header.glass svg {
+  color: #F5E6DA;
+}
+.dark header.glass button:hover,
+.dark header.glass a:hover {
+  background-color: #2D1F2A;
+}
+.dark aside.hb-sidebar {
+  background: #1E1320 !important;
+  border-right: 1px solid #3D2535;
+}
+.dark aside.hb-sidebar a,
+.dark aside.hb-sidebar span,
+.dark aside.hb-sidebar div {
+  color: #F5E6DA;
+}
+.dark aside.hb-sidebar .sidebar-section-label {
+  color: #C4A882 !important;
+}
+.dark aside.hb-sidebar a.nav-active {
+  background: #2D1F2A !important;
+  color: #F5E6DA !important;
+}
+.dark aside.hb-sidebar a:hover:not(.nav-active) {
+  background: rgba(201, 149, 106, 0.10);
+}
+.dark aside.hb-sidebar .hb-user-card {
+  background: #2D1F2A !important;
+  border: 1px solid #3D2535;
+}
+.dark aside.hb-sidebar .hb-logo-title { color: #C9956A; }
+.dark aside.hb-sidebar .hb-logo-tag { color: #C4A882; }
+.dark nav.glass { background: #1E1320 !important; border-top: 0.5px solid #3D2535 !important; }
+
 @layer base {
   * {
     border-color: var(--color-border);
