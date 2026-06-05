@@ -38,9 +38,18 @@ function Shop() {
 
   return (
     <div className="max-w-5xl mx-auto p-4 md:p-6 space-y-5">
-      <header>
-        <h1 className="font-display text-3xl text-primary">🛍️ Shop</h1>
-        <p className="text-muted-foreground text-sm">Sélection de produits validés par notre équipe</p>
+      <header className="relative h-40 md:h-52 rounded-3xl overflow-hidden card-lux" style={{ background: "#F5C4B3" }}>
+        <img
+          src={unsplash("photo-1571781926291-c477ebfd024b", 1200)}
+          alt=""
+          className="absolute inset-0 w-full h-full object-cover"
+          onError={(e) => { (e.currentTarget.style.background = "#F5C4B3"); }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+        <div className="relative h-full p-5 flex flex-col justify-end text-white">
+          <h1 className="font-display text-3xl md:text-4xl drop-shadow">🛍️ Shop</h1>
+          <p className="text-sm opacity-90">Sélection de produits validés par notre équipe</p>
+        </div>
       </header>
 
       <div className="glass rounded-2xl p-3 flex items-start gap-2 text-xs">
@@ -53,7 +62,7 @@ function Shop() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           {favorites.map((pr) => (
             <motion.div key={pr.id} whileHover={{ y: -4 }} className="glass rounded-2xl overflow-hidden">
-              <img src={unsplash(pr.photo, 600)} alt={pr.name} className="w-full h-32 object-cover" />
+              <img src={unsplash(pr.photo, 600)} alt={pr.name} className="w-full h-32 object-cover" style={{ background: "#F5C4B3" }} onError={(e) => { (e.currentTarget.style.background = "#F5C4B3"); }} />
               <div className="p-3">
                 <div className="text-[10px] text-primary uppercase">{pr.brand}</div>
                 <div className="font-display text-sm truncate">{pr.name}</div>
