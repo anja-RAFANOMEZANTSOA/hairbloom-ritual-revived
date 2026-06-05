@@ -5,17 +5,13 @@ import { Logo } from "./Logo";
 
 const PHOTOS = [
   "photo-1522337360788-8b13dee7a37e",
+  "photo-1560869713-7d0a29430803",
+  "photo-1595163153849-cb1d2a07a4b6",
   "photo-1571781926291-c477ebfd024b",
   "photo-1556228720-195a672e8a03",
+  "photo-1614707267537-b85aaf00c4b7",
   "photo-1598440947619-2c35fc9aa908",
   "photo-1585751119414-ef2636f8aede",
-  "photo-1608248597279-f99d160bfcbc",
-  "photo-1629198688000-71f23e745b6e",
-  "photo-1614707267537-b85aaf00c4b7",
-  "photo-1515377905703-c4788e51af15",
-  "photo-1559599101-f09722fb4948",
-  "photo-1596462502278-27bfdc403348",
-  "photo-1535585209827-a15fcdbc4c2d",
 ];
 
 const url = (id: string) =>
@@ -64,7 +60,8 @@ export function HeroSlideshow({ name }: { name?: string }) {
             src={url(PHOTOS[idx])}
             alt=""
             className="absolute inset-0 w-full h-full object-cover"
-            style={{ transform: `translateY(${scrollY * 0.15}px)` }}
+            style={{ transform: `translateY(${scrollY * 0.15}px)`, background: "#F5C4B3" }}
+            onError={(e) => { (e.currentTarget.style.background = "#F5C4B3"); }}
             initial={{ scale: 1.05 }}
             animate={{ scale: 1.18 }}
             transition={{ duration: 5, ease: "easeOut" }}
