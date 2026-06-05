@@ -52,7 +52,7 @@ function Recipes() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {list.map((r) => (
           <motion.div key={r.id} whileHover={{ y: -3 }} className="bg-card rounded-3xl overflow-hidden border border-border cursor-pointer" onClick={() => openRecipe(r)}>
-            <div className="h-[140px] bg-cover bg-center" style={{ backgroundImage: `url(${unsplash(r.cover, 600)})` }} />
+            <div className="h-[140px] bg-cover bg-center" style={{ backgroundImage: `url(${unsplash(r.cover, 600)})`, backgroundColor: "#F5C4B3" }} />
             <div className="p-4">
               <div className="flex justify-between items-start gap-2 mb-2">
                 <span className="text-[10px] uppercase tracking-wider text-primary font-medium">{r.benefit}</span>
@@ -81,7 +81,7 @@ function Recipes() {
       {open && (
         <div className="fixed inset-0 z-50 bg-black/50 flex items-end sm:items-center justify-center p-0 sm:p-6" onClick={() => setOpen(null)}>
           <motion.div initial={{ y: 50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className="bg-background rounded-t-3xl sm:rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
-            <div className="relative h-56 bg-cover bg-center" style={{ backgroundImage: `url(${unsplash(open.cover, 900)})` }}>
+            <div className="relative h-56 bg-cover bg-center" style={{ backgroundImage: `url(${unsplash(open.cover, 900)})`, backgroundColor: "#F5C4B3" }}>
               <button onClick={() => setOpen(null)} className="absolute top-4 right-4 size-9 rounded-full bg-white/90 flex items-center justify-center"><X className="size-4" /></button>
             </div>
             <div className="p-6 space-y-4">
