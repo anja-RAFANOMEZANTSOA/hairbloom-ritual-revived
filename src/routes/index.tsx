@@ -146,7 +146,7 @@ function Index() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <Reveal delay={0.25}>
             <Link to="/recipes" className="block group relative h-52 rounded-2xl overflow-hidden card-lux">
-              <img src={unsplash(featuredRecipe.cover, 600)} alt={featuredRecipe.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+              <img src={unsplash(featuredRecipe.cover, 600)} alt={featuredRecipe.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" style={{ background: "#F5C4B3" }} onError={(e) => { (e.currentTarget.style.background = "#F5C4B3"); }} />
               <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
               <div className="absolute inset-0 p-5 flex flex-col justify-end text-white">
                 <div className="text-[10px] uppercase tracking-[0.2em] text-[var(--caramel)] mb-1">Recette du moment</div>
@@ -157,7 +157,7 @@ function Index() {
           </Reveal>
           <Reveal delay={0.3}>
             <Link to="/shop" className="flex h-52 rounded-2xl overflow-hidden card-lux bg-card border border-border group">
-              <img src={unsplash(featuredProduct.photo, 400)} alt={featuredProduct.name} className="w-2/5 h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+              <img src={unsplash(featuredProduct.photo, 400)} alt={featuredProduct.name} className="w-2/5 h-full object-cover transition-transform duration-700 group-hover:scale-110" style={{ background: "#F5C4B3" }} onError={(e) => { (e.currentTarget.style.background = "#F5C4B3"); }} />
               <div className="flex-1 p-5 flex flex-col justify-center">
                 <div className="text-[10px] uppercase tracking-[0.2em] text-primary mb-1">Produit tendance</div>
                 <div className="text-xs text-muted-foreground">{featuredProduct.brand}</div>
@@ -175,8 +175,8 @@ function Index() {
           <div className="flex gap-3 overflow-x-auto pb-2 -mx-1 px-1 snap-x">
             {Object.keys(hairTypePhotos).map((t) => (
               <Link key={t} to="/recipes" className="flex flex-col items-center gap-1.5 shrink-0 snap-start">
-                <div className="size-[60px] rounded-full overflow-hidden border-2 border-[var(--caramel)] avatar-glow">
-                  <img src={unsplash(hairTypePhotos[t], 120)} alt={`Type ${t}`} className="w-full h-full object-cover" />
+                <div className="size-[60px] rounded-full overflow-hidden border-2 border-[var(--caramel)] avatar-glow" style={{ background: "#F5C4B3" }}>
+                  <img src={unsplash(hairTypePhotos[t], 120)} alt={`Type ${t}`} className="w-full h-full object-cover" onError={(e) => { (e.currentTarget.style.background = "#F5C4B3"); }} />
                 </div>
                 <span className="text-[11px] font-medium">{t}</span>
               </Link>
@@ -249,7 +249,7 @@ function Index() {
                   onClick={() => toggleType(t)}
                   className={`relative h-20 rounded-xl overflow-hidden border-2 transition-all ${active ? "border-primary ring-2 ring-primary/30" : "border-transparent"}`}
                 >
-                  <img src={unsplash(hairTypePhotos[t], 200)} alt={t} className="w-full h-full object-cover" />
+                  <img src={unsplash(hairTypePhotos[t], 200)} alt={t} className="w-full h-full object-cover" style={{ background: "#F5C4B3" }} onError={(e) => { (e.currentTarget.style.background = "#F5C4B3"); }} />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
                   <span className="absolute bottom-1 inset-x-0 text-center text-white font-semibold text-sm">{t}</span>
                 </button>
