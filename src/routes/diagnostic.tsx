@@ -7,6 +7,7 @@ import { diagnoseHair } from "@/lib/ai.functions";
 import { useProfile } from "@/lib/storage";
 import { toast } from "sonner";
 import { addHistory } from "@/lib/history";
+import { unsplash } from "@/lib/hair-data";
 
 export const Route = createFileRoute("/diagnostic")({ component: Diagnostic });
 
@@ -57,9 +58,18 @@ function Diagnostic() {
 
   return (
     <div className="max-w-3xl mx-auto p-4 md:p-6 space-y-5">
-      <header>
-        <h1 className="font-display text-3xl">Diagnostic</h1>
-        <p className="text-muted-foreground text-sm">Identifiez précisément vos besoins capillaires</p>
+      <header className="relative h-36 rounded-3xl overflow-hidden card-lux" style={{ background: "#F5C4B3" }}>
+        <img
+          src={unsplash("photo-1556228720-195a672e8a03", 1200)}
+          alt=""
+          className="absolute inset-0 w-full h-full object-cover"
+          onError={(e) => { (e.currentTarget.style.background = "#F5C4B3"); }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+        <div className="relative h-full p-5 flex flex-col justify-end text-white">
+          <h1 className="font-display text-3xl drop-shadow">Diagnostic</h1>
+          <p className="text-sm opacity-90">Identifiez précisément vos besoins capillaires</p>
+        </div>
       </header>
 
       <div className="grid grid-cols-2 gap-2">
