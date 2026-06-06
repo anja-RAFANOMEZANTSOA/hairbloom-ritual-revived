@@ -11,6 +11,7 @@ import {
 import appCss from "../styles.css?url";
 import { Layout } from "@/components/Layout";
 import { Onboarding } from "@/components/Onboarding";
+import { SplashScreen } from "@/components/SplashScreen";
 import { Toaster } from "@/components/ui/sonner";
 import { useAuth, PUBLIC_ROUTES } from "@/lib/auth";
 import { useEffect, useState } from "react";
@@ -139,6 +140,7 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <SplashScreen />
       <AuthGate />
       <Toaster position="top-center" />
     </QueryClientProvider>
